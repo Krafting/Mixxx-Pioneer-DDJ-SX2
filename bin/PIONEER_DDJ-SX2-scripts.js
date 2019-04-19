@@ -127,7 +127,7 @@ PioneerDDJSX2.oldsampleplaying1=[
   0,0,0,0,0,0,0,0,
   0,0,0,0,0,0,0,0
 ];
-PioneerDDJSX2.samplerBank=0;
+PioneerDDJSX2.samplerBank=[0,0,0,0];
 
 // cue loop variables
 PioneerDDJSX2.HCLOn=[0,0,0,0];
@@ -175,27 +175,29 @@ PioneerDDJSX2.doTimer=function() {
       midi.sendShortMsg(0x97+i,0x48+PioneerDDJSX2.HCLNum[i],(PioneerDDJSX2.tiltstatus)?PioneerDDJSX2.settings.cueLoopColors[PioneerDDJSX2.hclPrec[i]]:0x00);
     }
   }
-  for (var i=0; i<8; i++) {
-    ai=i+PioneerDDJSX2.samplerBank*8;
-    // sampler check
-    PioneerDDJSX2.oldsampleplaying1[ai]=PioneerDDJSX2.sampleplaying1[ai];
-    PioneerDDJSX2.sampleplaying1[ai]=engine.getValue("[Sampler"+(ai+1)+"]","play");
-    if (PioneerDDJSX2.sampleplaying1[ai]) {
-      for (var j=0; j<4; j++) {
-        midi.sendShortMsg(0x97+j,0x30+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
-        midi.sendShortMsg(0x97+j,0x70+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
-        midi.sendShortMsg(0x97+j,0x38+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
-        midi.sendShortMsg(0x97+j,0x78+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
-      }
-    } else {
-      PioneerDDJSX2.oldsampleplaying[ai]=PioneerDDJSX2.sampleplaying[ai];
-      PioneerDDJSX2.sampleplaying[ai]=(engine.getValue("[Sampler"+(ai+1)+"]","track_samples")>0);
-      if (PioneerDDJSX2.oldsampleplaying[ai]!=PioneerDDJSX2.sampleplaying[ai] || PioneerDDJSX2.oldsampleplaying1[ai]!=PioneerDDJSX2.sampleplaying1[ai]) {
-        for (var j=0; j<4; j++) {
-          midi.sendShortMsg(0x97+j,0x30+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
-          midi.sendShortMsg(0x97+j,0x70+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
-          midi.sendShortMsg(0x97+j,0x38+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
-          midi.sendShortMsg(0x97+j,0x78+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
+  for (var i=0; i<32; i++) {
+    PioneerDDJSX2.oldsampleplaying1[i]=PioneerDDJSX2.sampleplaying1[i];
+    PioneerDDJSX2.sampleplaying1[i]=engine.getValue("[Sampler"+(i+1)+"]","play");
+    if (!PioneerDDJSX2.sampleplaying1[i]) {
+      PioneerDDJSX2.oldsampleplaying[i]=PioneerDDJSX2.sampleplaying[i];
+      PioneerDDJSX2.sampleplaying[i]=(engine.getValue("[Sampler"+(i+1)+"]","track_samples")>0);
+    }
+  }
+  for (var group=0; group<4; group++) {
+    for (var i=0; i<8; i++) {
+      ai=i+PioneerDDJSX2.samplerBank[group]*8;
+      // sampler check
+      if (PioneerDDJSX2.sampleplaying1[ai]) {
+        midi.sendShortMsg(0x97+group,0x30+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
+        midi.sendShortMsg(0x97+group,0x70+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
+        midi.sendShortMsg(0x97+group,0x38+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
+        midi.sendShortMsg(0x97+group,0x78+i,(PioneerDDJSX2.tiltstatus)?0x7f:0x00);
+      } else {
+        if (PioneerDDJSX2.oldsampleplaying[ai]!=PioneerDDJSX2.sampleplaying[ai] || PioneerDDJSX2.oldsampleplaying1[ai]!=PioneerDDJSX2.sampleplaying1[ai]) {
+          midi.sendShortMsg(0x97+group,0x30+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
+          midi.sendShortMsg(0x97+group,0x70+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
+          midi.sendShortMsg(0x97+group,0x38+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
+          midi.sendShortMsg(0x97+group,0x78+i,(PioneerDDJSX2.sampleplaying[ai])?(0x7f):(0x00));
         }
       }
     }
@@ -285,7 +287,9 @@ PioneerDDJSX2.init=function(id) {
     engine.setParameter("[Channel"+(i+1)+"]","rateRange",PioneerDDJSX2.settings.tempoRanges[PioneerDDJSX2.tempoRange[i]]);
   }
   // change leds to mixxx's status
-  PioneerDDJSX2.RepaintSampler();
+  for (var i=0; i<4; i++) {
+    PioneerDDJSX2.RepaintSampler(i);
+  }
   PioneerDDJSX2.CCCLeds();
   for (var i=1; i<=4; i++) {
     for (var j=1; j<=8; j++) {
@@ -1144,16 +1148,16 @@ PioneerDDJSX2.SetVelocitySamplerMode=function(group, control, value, status) {
 };
 
 PioneerDDJSX2.SamplerPlay=function(group, control, value, status) {
-  engine.setParameter("[Sampler"+(1+(control&7)+(PioneerDDJSX2.samplerBank*8))+"]","start_play",value&1);
+  engine.setParameter("[Sampler"+(1+(control&7)+(PioneerDDJSX2.samplerBank[group-7]*8))+"]","start_play",value&1);
 };
 
 PioneerDDJSX2.SamplerStop=function(group, control, value, status) {
-  engine.setParameter("[Sampler"+(1+(control&7)+(PioneerDDJSX2.samplerBank*8))+"]","start_stop",value&1);
+  engine.setParameter("[Sampler"+(1+(control&7)+(PioneerDDJSX2.samplerBank[group-7]*8))+"]","start_stop",value&1);
 };
 
-PioneerDDJSX2.SetSampleGain=function(value, group, control) {
-  var where=(group&7)+(PioneerDDJSX2.samplerBank*8);
-  PioneerDDJSX2.sampleVolume[where]=control/127;
+PioneerDDJSX2.SetSampleGain=function(group, control, value) {
+  var where=(control&7)+(PioneerDDJSX2.samplerBank[group-7]*8);
+  PioneerDDJSX2.sampleVolume[where]=value/127;
   engine.setParameter("[Sampler"+(1+where)+"]","pregain",PioneerDDJSX2.samplerVolume*PioneerDDJSX2.sampleVolume[where]);
 };
 
@@ -1208,46 +1212,43 @@ PioneerDDJSX2.RollParam1R=function(group, control, value, status) {
   }
 };
 
-PioneerDDJSX2.RepaintSampler=function() {
+PioneerDDJSX2.RepaintSampler=function(group) {
   var ai;
+  print("RepaintSampler "+group);
   for (var i=0; i<8; i++) {
-    ai=i+PioneerDDJSX2.samplerBank*8;
+    ai=i+PioneerDDJSX2.samplerBank[group]*8;
     if (engine.getValue("[Sampler"+(ai+1)+"]","track_samples")>0) {
-      for (var j=0; j<4; j++) {
-        midi.sendShortMsg(0x97+j,0x30+i,0x7f);
-        midi.sendShortMsg(0x97+j,0x70+i,0x7f);
-        midi.sendShortMsg(0x97+j,0x38+i,0x7f);
-        midi.sendShortMsg(0x97+j,0x78+i,0x7f);
-      }
+      midi.sendShortMsg(0x97+group,0x30+i,0x7f);
+      midi.sendShortMsg(0x97+group,0x70+i,0x7f);
+      midi.sendShortMsg(0x97+group,0x38+i,0x7f);
+      midi.sendShortMsg(0x97+group,0x78+i,0x7f);
     } else {
-      for (var j=0; j<4; j++) {
-        midi.sendShortMsg(0x97+j,0x30+i,0x00);
-        midi.sendShortMsg(0x97+j,0x70+i,0x00);
-        midi.sendShortMsg(0x97+j,0x38+i,0x00);
-        midi.sendShortMsg(0x97+j,0x78+i,0x00);
-      }
+      midi.sendShortMsg(0x97+group,0x30+i,0x00);
+      midi.sendShortMsg(0x97+group,0x70+i,0x00);
+      midi.sendShortMsg(0x97+group,0x38+i,0x00);
+      midi.sendShortMsg(0x97+group,0x78+i,0x00);
     }
   }
 };
 
 PioneerDDJSX2.SamplerParam1L=function(group, control, value, status) {
   if (value==127) {
-    PioneerDDJSX2.samplerBank--;
-    if (PioneerDDJSX2.samplerBank<0) {
-      PioneerDDJSX2.samplerBank=0;
+    PioneerDDJSX2.samplerBank[group]--;
+    if (PioneerDDJSX2.samplerBank[group]<0) {
+      PioneerDDJSX2.samplerBank[group]=0;
     } else {
-      PioneerDDJSX2.RepaintSampler();
+      PioneerDDJSX2.RepaintSampler(group);
     }
   }
 };
 
 PioneerDDJSX2.SamplerParam1R=function(group, control, value, status) {
   if (value==127) {
-    PioneerDDJSX2.samplerBank++;
-    if (PioneerDDJSX2.samplerBank>1) {
-      PioneerDDJSX2.samplerBank=1;
+    PioneerDDJSX2.samplerBank[group]++;
+    if (PioneerDDJSX2.samplerBank[group]>3) {
+      PioneerDDJSX2.samplerBank[group]=3;
     } else {
-      PioneerDDJSX2.RepaintSampler();
+      PioneerDDJSX2.RepaintSampler(group);
     }
   }
 };
