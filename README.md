@@ -20,7 +20,7 @@ if you just want to get your controller working with Mixxx without bothering abo
 
 ### Controller Setup
 
-the DDJ-SX2 uses a sysex to go into serato mode, so we trick the controller into "this is Serato". no extra setup is involved. 
+the DDJ-SX2 uses a SysEx to go into Serato mode, so we trick the controller into "this is Serato". no extra setup is involved. 
 
 ## What's implemented?
 

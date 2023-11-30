@@ -52,6 +52,7 @@ PioneerDDJSX2.closestBeatToLoopIn=[0,0,0,0];
 PioneerDDJSX2.gridSlide=[0,0,0,0];
 PioneerDDJSX2.gridAdjust=[0,0,0,0];
 PioneerDDJSX2.TurnTablePos=[0,0,0,0];
+PioneerDDJSX2.FinalTurnPos=[-1,-1,-1,-1];
 
 // roll variables
 PioneerDDJSX2.rollPrec=[2,2,2,2];
@@ -152,6 +153,7 @@ PioneerDDJSX2.currenteffectparamset=[0,0,0,0,0,0,0,0];
 
 // VARIABLES END //
 
+// TODO: this is VERY unhealthy. optimize.
 PioneerDDJSX2.doTimer=function() {
   var ai;
   if (!PioneerDDJSX2.settings.DoNotTrickController) {
@@ -587,12 +589,16 @@ PioneerDDJSX2.BeatClosest=function(value, group, control) {
 
 // This handles LEDs related to the PFL/Headphone Cue event.
 PioneerDDJSX2.deckLights=function(value, group, control) {
-  var channel=PioneerDDJSX2.enumerations.channelGroups[group];  
+  var channel=PioneerDDJSX2.enumerations.channelGroups[group];
   PioneerDDJSX2.TurnTablePos[channel]=(engine.getValue(group,"playposition")*(engine.getValue(group,"track_samples")/engine.getValue(group,"track_samplerate"))/2);
-  midi.sendShortMsg(0xbb,channel,1+(PioneerDDJSX2.TurnTablePos[channel]*39.96)%0x48); // Headphone Cue LED
-  // red led in the center
-  if (PioneerDDJSX2.settings.CenterLightBehavior==0) {
-    midi.sendShortMsg(0xbb,0x04+channel,(1+Math.floor((engine.getValue(group,"playposition")*(engine.getValue(group,"track_samples")/engine.getValue(group,"track_samplerate"))/2)*39.96)/0x48)%8);
+  const finalPos=Math.floor(1+(PioneerDDJSX2.TurnTablePos[channel]*39.96)%0x48);
+  if (finalPos!=PioneerDDJSX2.FinalTurnPos[channel]) {
+    PioneerDDJSX2.FinalTurnPos[channel]=finalPos;
+    midi.sendShortMsg(0xbb,channel,finalPos); // Headphone Cue LED
+    // red led in the center
+    if (PioneerDDJSX2.settings.CenterLightBehavior==0) {
+      midi.sendShortMsg(0xbb,0x04+channel,(1+Math.floor((engine.getValue(group,"playposition")*(engine.getValue(group,"track_samples")/engine.getValue(group,"track_samplerate"))/2)*39.96)/0x48)%8);
+    }
   }
 };
 
