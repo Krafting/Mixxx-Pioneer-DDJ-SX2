@@ -27,11 +27,97 @@
 
 var PioneerDDJSX2={};
 
-// VARIABLES BEGIN //
-
-// SysEx variables- erm, constants.
-PioneerDDJSX2.serato=[0xF0,0x00,0x20,0x7f,0x50,0x01,0xF7];
+// SysEx constants
+PioneerDDJSX2.keepAlive=[0xF0,0x00,0x20,0x7f,0x50,0x01,0xF7];
 PioneerDDJSX2.initstring=[0xF0,0x00,0x20,0x7f,0x03,0x01,0xF7];
+
+// performance pad colors
+// 0: off
+// 1: blue
+// 12: cyan
+// 22: green
+// 31: yellow
+// 41: red
+// 48: magenta
+// 62: blue
+// 63: black
+// 64: white (actually light blue)
+// 65-126: invalid
+// 127: current mode default
+PioneerDDJSX2.padColors=new ColorMapper({
+   0x0000FF:  1,
+   0x0010FF:  2,
+   0x0028FF:  3,
+   0x0040FF:  4,
+   0x0060FF:  5,
+   0x0080FF:  6,
+   0x00A0FF:  7,
+   0x00B0FF:  8,
+   0x00D0FF:  9,
+   0x00E0FF: 10,
+   0x00F0FF: 11,
+
+   0x00FFFF: 12,
+   0x00FFF0: 13,
+   0x00FFE0: 14,
+   0x00FFD0: 15,
+   0x00FFB0: 16,
+   0x00FF90: 17,
+   0x00FF70: 18,
+   0x00FF50: 19,
+   0x00FF30: 20,
+   0x00FF10: 21,
+
+   0x00FF00: 22,
+   0x10FF00: 23,
+   0x30FF00: 24,
+   0x40FF00: 25,
+   0x60FF00: 26,
+   0x80FF00: 27,
+   0xA0FF00: 28,
+   0xC0FF00: 29,
+   0xE0FF00: 30,
+
+   0xFFFF00: 31,
+   0xFFE000: 32,
+   0xFFC000: 33,
+   0xFFB000: 34,
+   0xFFA000: 35,
+   0xFF9000: 36,
+   0xFF7000: 37,
+   0xFF5000: 38,
+   0xFF3000: 39,
+   0xFF1000: 40,
+
+   0xFF0000: 41,
+   0xFF0010: 42,
+   0xFF0030: 43,
+   0xFF0060: 44,
+   0xFF0090: 45,
+   0xFF00A0: 46,
+   0xFF00E0: 47,
+
+   0xFF00FF: 48,
+   0xF000FF: 49,
+   0xE000FF: 50,
+   0xD000FF: 51,
+   0xC000FF: 52,
+   0xB000FF: 53,
+   0xA000FF: 54,
+   0x9000FF: 55,
+   0x8000FF: 56,
+   0x6000FF: 57,
+   0x5000FF: 58,
+   0x4000FF: 59,
+   0x3000FF: 60,
+   0x2000FF: 61,
+   0x1000FF: 62,
+
+   0x000000: 63,
+   0xF0FFFF: 64,
+});
+
+// VARIABLES BEGIN //
 
 // general variables
 PioneerDDJSX2.lightsTimer=0;
@@ -157,7 +243,7 @@ PioneerDDJSX2.currenteffectparamset=[0,0,0,0,0,0,0,0];
 PioneerDDJSX2.doTimer=function() {
   var ai;
   if (!PioneerDDJSX2.settings.DoNotTrickController) {
-    midi.sendSysexMsg(PioneerDDJSX2.serato,PioneerDDJSX2.serato.length);
+    midi.sendSysexMsg(PioneerDDJSX2.keepAlive,PioneerDDJSX2.keepAlive.length);
   }
   for (var i=0; i<4; i++) {
     if (engine.getValue("[Channel"+(i+1)+"]","slip_enabled")) {
@@ -228,12 +314,11 @@ PioneerDDJSX2.init=function(id) {
     vinylSpeed: 33+1/3,
     loopIntervals: ['0.03125','0.0625','0.125','0.25','0.5','1','2','4','8','16','32','64'],
     tempoRanges: [0.08,0.16,0.5,0.9],
-    hotCueColors: [0x2A,0x24,0x01,0x1D,0x15,0x37,0x08,0x3A],// set to [0x2A,0x24,0x01,0x1D,0x15,0x37,0x08,0x3A] for serato defaults
     rollColors: [0x1d,0x16,0x13,0x0d,0x05],
     cueLoopColors: [0x30,0x35,0x3a,0x01,0x05,0x0a,0x10,0x15,0x1a,0x24,0x27,0x2a],
     safeScratchTimeout: 20,// 20ms is the minimum allowed here.
     CenterLightBehavior: 1,// 0 for rotations,1 for beats,-1 to disable
-    DoNotTrickController: 0 // enable this to stop tricking your controller into "this is serato" hahaha... but be careful as enabling this will disable the red light and spin sync and the slip shower
+    DoNotTrickController: 0 // do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
   };
     
   PioneerDDJSX2.enumerations={
@@ -268,7 +353,7 @@ PioneerDDJSX2.init=function(id) {
   midi.sendShortMsg(0x93,0x1b,0x7f);
   PioneerDDJSX2.BindControlConnections(false);
   //midi.sendSysexMsg(PioneerDDJSX2.initstring,initstring.length);
-  // increase resonance of filter,so that mixxx becomes more serato-like HAHAHA
+  // increase resonance of filter
   engine.setValue("[QuickEffectRack1_[Channel1]_Effect1]","parameter2",4);
   engine.setValue("[QuickEffectRack1_[Channel2]_Effect1]","parameter2",4);
   engine.setValue("[QuickEffectRack1_[Channel3]_Effect1]","parameter2",4);
@@ -1342,14 +1427,16 @@ PioneerDDJSX2.HotCuePerformancePadLed=function(value, group, control) {
   var channel=PioneerDDJSX2.enumerations.channelGroups[group];
   
   var padIndex=null;
-        
+
   for (var i=1; i<9; i++) {
     if (control==='hotcue_'+i+'_enabled') {
+      const padColor=PioneerDDJSX2.padColors.getNearestColor(engine.getValue('[Channel'+channel+']','hotcue_'+i+'_color'));
+        
       // Pad LED without shift key
-      midi.sendShortMsg(0x97+channel,0x00+i-1,value?PioneerDDJSX2.settings.hotCueColors[i-1]:0x00);
+      midi.sendShortMsg(0x97+channel,0x00+i-1,value?padColor:0x00);
       // Pad LED with shift key
-      midi.sendShortMsg(0x97+channel,0x00+i-1+0x08,value?PioneerDDJSX2.settings.hotCueColors[i-1]:0x00);
-      // Loop Pad LED without shift key
+      midi.sendShortMsg(0x97+channel,0x00+i-1+0x08,value?padColor:0x00);
+
       midi.sendShortMsg(0x97+channel,0x40+i-1,value?(PioneerDDJSX2.settings.cueLoopColors[PioneerDDJSX2.hclPrec[channel]]):0x00);  
       // Loop Pad LED with shift key
       midi.sendShortMsg(0x97+channel,0x40+i-1+0x08,value?(PioneerDDJSX2.settings.cueLoopColors[PioneerDDJSX2.hclPrec[channel]]):0x00);
