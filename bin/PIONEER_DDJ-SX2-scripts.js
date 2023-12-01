@@ -1430,7 +1430,8 @@ PioneerDDJSX2.HotCuePerformancePadLed=function(value, group, control) {
 
   for (var i=1; i<9; i++) {
     if (control==='hotcue_'+i+'_enabled') {
-      const padColor=PioneerDDJSX2.padColors.getNearestColor(engine.getValue('[Channel'+channel+']','hotcue_'+i+'_color'));
+      const colorCode=engine.getValue(group,'hotcue_'+i+'_color');
+      const padColor=PioneerDDJSX2.padColors.getValueForNearestColor(colorCode);
         
       // Pad LED without shift key
       midi.sendShortMsg(0x97+channel,0x00+i-1,value?padColor:0x00);
