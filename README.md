@@ -47,11 +47,9 @@ the DDJ-SX2 uses a SysEx to go into Serato mode, so we trick the controller into
     - pads:
         - hot cue
         - roll
-        - slicer!
         - sampler
         - cue loop
         - saved loop (uses hotcues as workaround)
-        - slicer loop (maybe buggy)
         - velocity sampler
         - sampler bank switching
           - to be expanded to 8 banks for Mixxx 2.1
@@ -75,10 +73,6 @@ the DDJ-SX2 uses a SysEx to go into Serato mode, so we trick the controller into
 - sampler volume
 - channel/cross fader start
 - parameter 1 and 2
-
-## What's missing
-
-- removing the slicer and replacing it with something else
 
 ## What's not possible at all?
 

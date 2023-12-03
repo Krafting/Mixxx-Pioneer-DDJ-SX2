@@ -1983,7 +1983,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x20</midino>
                 <options>
@@ -1992,7 +1992,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x20</midino>
                 <options>
@@ -2001,7 +2001,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x20</midino>
                 <options>
@@ -2010,7 +2010,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x20</midino>
                 <options>
@@ -2019,7 +2019,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x21</midino>
                 <options>
@@ -2028,7 +2028,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x21</midino>
                 <options>
@@ -2037,7 +2037,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x21</midino>
                 <options>
@@ -2046,7 +2046,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x21</midino>
                 <options>
@@ -2127,7 +2127,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x22</midino>
                 <options>
@@ -2136,7 +2136,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x22</midino>
                 <options>
@@ -2145,7 +2145,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x22</midino>
                 <options>
@@ -2154,7 +2154,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x22</midino>
                 <options>
@@ -2199,7 +2199,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x23</midino>
                 <options>
@@ -2208,7 +2208,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x23</midino>
                 <options>
@@ -2217,7 +2217,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x23</midino>
                 <options>
@@ -2226,7 +2226,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x23</midino>
                 <options>
@@ -2307,7 +2307,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x24</midino>
                 <options>
@@ -2316,7 +2316,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x24</midino>
                 <options>
@@ -2325,7 +2325,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x24</midino>
                 <options>
@@ -2334,7 +2334,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x24</midino>
                 <options>
@@ -2379,7 +2379,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x25</midino>
                 <options>
@@ -2388,7 +2388,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x25</midino>
                 <options>
@@ -2397,7 +2397,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x25</midino>
                 <options>
@@ -2406,7 +2406,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x25</midino>
                 <options>
@@ -2415,7 +2415,43 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.SlicerParam1L</key>
+                <status>0x90</status>
+                <midino>0x26</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>PioneerDDJSX2.SlicerParam1L</key>
+                <status>0x91</status>
+                <midino>0x26</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel3]</group>
+                <key>PioneerDDJSX2.SlicerParam1L</key>
+                <status>0x92</status>
+                <midino>0x26</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel4]</group>
+                <key>PioneerDDJSX2.SlicerParam1L</key>
+                <status>0x93</status>
+                <midino>0x26</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x26</midino>
                 <options>
@@ -2424,7 +2460,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x26</midino>
                 <options>
@@ -2433,7 +2469,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x26</midino>
                 <options>
@@ -2442,7 +2478,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x26</midino>
                 <options>
@@ -2523,7 +2559,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x27</midino>
                 <options>
@@ -2532,7 +2568,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x27</midino>
                 <options>
@@ -2541,7 +2577,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x27</midino>
                 <options>
@@ -2550,7 +2586,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x27</midino>
                 <options>
@@ -2697,6 +2733,42 @@
                 <key>PioneerDDJSX2.RollParam1R</key>
                 <status>0x93</status>
                 <midino>0x2D</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>PioneerDDJSX2.SlicerParam1R</key>
+                <status>0x90</status>
+                <midino>0x2E</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>PioneerDDJSX2.SlicerParam1R</key>
+                <status>0x91</status>
+                <midino>0x2E</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel3]</group>
+                <key>PioneerDDJSX2.SlicerParam1R</key>
+                <status>0x92</status>
+                <midino>0x2E</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel4]</group>
+                <key>PioneerDDJSX2.SlicerParam1R</key>
+                <status>0x93</status>
+                <midino>0x2E</midino>
                 <options>
                     <script-binding/>
                 </options>
@@ -5502,7 +5574,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x60</midino>
                 <options>
@@ -5511,7 +5583,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x60</midino>
                 <options>
@@ -5520,7 +5592,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x60</midino>
                 <options>
@@ -5529,7 +5601,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x60</midino>
                 <options>
@@ -5574,7 +5646,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x61</midino>
                 <options>
@@ -5583,7 +5655,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x61</midino>
                 <options>
@@ -5592,7 +5664,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x61</midino>
                 <options>
@@ -5601,7 +5673,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x61</midino>
                 <options>
@@ -5646,7 +5718,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x62</midino>
                 <options>
@@ -5655,7 +5727,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x62</midino>
                 <options>
@@ -5664,7 +5736,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x62</midino>
                 <options>
@@ -5673,7 +5745,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x62</midino>
                 <options>
@@ -5700,7 +5772,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x63</midino>
                 <options>
@@ -5709,7 +5781,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x63</midino>
                 <options>
@@ -5718,7 +5790,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x63</midino>
                 <options>
@@ -5727,7 +5799,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x63</midino>
                 <options>
@@ -5790,7 +5862,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x64</midino>
                 <options>
@@ -5799,7 +5871,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x64</midino>
                 <options>
@@ -5808,7 +5880,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x64</midino>
                 <options>
@@ -5817,7 +5889,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x64</midino>
                 <options>
@@ -5889,7 +5961,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x65</midino>
                 <options>
@@ -5898,7 +5970,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x65</midino>
                 <options>
@@ -5907,7 +5979,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x65</midino>
                 <options>
@@ -5916,7 +5988,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x65</midino>
                 <options>
@@ -5988,7 +6060,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x66</midino>
                 <options>
@@ -5997,7 +6069,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x66</midino>
                 <options>
@@ -6006,7 +6078,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x66</midino>
                 <options>
@@ -6015,7 +6087,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x66</midino>
                 <options>
@@ -6033,7 +6105,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x97</status>
                 <midino>0x67</midino>
                 <options>
@@ -6042,7 +6114,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x98</status>
                 <midino>0x67</midino>
                 <options>
@@ -6051,7 +6123,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x99</status>
                 <midino>0x67</midino>
                 <options>
@@ -6060,7 +6132,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.SlicerThing</key>
+                <key>PioneerDDJSX2.BeatJump</key>
                 <status>0x9A</status>
                 <midino>0x67</midino>
                 <options>
