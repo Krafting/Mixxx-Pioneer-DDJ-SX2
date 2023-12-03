@@ -29,7 +29,7 @@ var PioneerDDJSX2={};
 
 // SysEx constants
 PioneerDDJSX2.keepAlive=[0xF0,0x00,0x20,0x7f,0x50,0x01,0xF7];
-PioneerDDJSX2.initstring=[0xF0,0x00,0x20,0x7f,0x03,0x01,0xF7];
+PioneerDDJSX2.recallState=[0xF0,0x00,0x20,0x7f,0x03,0x01,0xF7];
 
 // performance pad colors
 // 0: off
@@ -123,8 +123,8 @@ PioneerDDJSX2.padColors=new ColorMapper({
 PioneerDDJSX2.lightsTimer=0;
 PioneerDDJSX2.shift=0;
 PioneerDDJSX2.blinkState=0;
-PioneerDDJSX2.selectedpanel=0;
-PioneerDDJSX2.selectedview=0;
+PioneerDDJSX2.curPanel=0;
+PioneerDDJSX2.curView=0;
 
 // deck variables
 PioneerDDJSX2.reverse=[0,0,0,0];
@@ -352,7 +352,6 @@ PioneerDDJSX2.init=function(id) {
   midi.sendShortMsg(0x92,0x1b,0x7f);
   midi.sendShortMsg(0x93,0x1b,0x7f);
   PioneerDDJSX2.BindControlConnections(false);
-  //midi.sendSysexMsg(PioneerDDJSX2.initstring,initstring.length);
   // increase resonance of filter
   engine.setValue("[QuickEffectRack1_[Channel1]_Effect1]","parameter2",4);
   engine.setValue("[QuickEffectRack1_[Channel2]_Effect1]","parameter2",4);
@@ -388,10 +387,12 @@ PioneerDDJSX2.init=function(id) {
   engine.setValue("[EffectRack1_EffectUnit2]","group_[Channel2]_enable",1);
   // start timer
   PioneerDDJSX2.lightsTimer=engine.beginTimer(250,"PioneerDDJSX2.doTimer",0);
+  // recall state
+  //midi.sendSysexMsg(PioneerDDJSX2.recallState,PioneerDDJSX2.recallState.length);
 }
 
 PioneerDDJSX2.BindControlConnections=function(isUnbinding) {
-  for (var channelIndex=1; channelIndex <= 4; channelIndex++) {
+  for (var channelIndex=1; channelIndex<=4; channelIndex++) {
     var channelGroup='[Channel'+channelIndex+']';
     // Hook up the VU meters
     engine.connectControl(channelGroup,'VuMeter','PioneerDDJSX2.vuMeter',isUnbinding);
@@ -1058,15 +1059,15 @@ PioneerDDJSX2.LinkTypeLeds=function(effectset, effect, param) {
 PioneerDDJSX2.PanelSelect=function(value, group, control) {
   //var channel=PioneerDDJSX2.enumerations.channelGroups[group];
   if (control==127) {
-    PioneerDDJSX2.selectedpanel+=((1-(group-120))*2)-1;
-    if (PioneerDDJSX2.selectedpanel<0) {
-      PioneerDDJSX2.selectedpanel=2;
+    PioneerDDJSX2.curPanel+=((1-(group-120))*2)-1;
+    if (PioneerDDJSX2.curPanel<0) {
+      PioneerDDJSX2.curPanel=2;
     }
-    if (PioneerDDJSX2.selectedpanel>2) {
-      PioneerDDJSX2.selectedpanel=0;
+    if (PioneerDDJSX2.curPanel>2) {
+      PioneerDDJSX2.curPanel=0;
     }
-    print(PioneerDDJSX2.selectedpanel);
-    switch (PioneerDDJSX2.selectedpanel) {
+    print(PioneerDDJSX2.curPanel);
+    switch (PioneerDDJSX2.curPanel) {
       case 0:
         engine.setValue("[Samplers]","show_samplers",0);
         engine.setValue("[EffectRack1]","show",0);
@@ -1085,14 +1086,14 @@ PioneerDDJSX2.PanelSelect=function(value, group, control) {
 
 PioneerDDJSX2.ViewButton=function(value, group, control) {
   if (control==127) {
-    PioneerDDJSX2.selectedview++;
-    if (PioneerDDJSX2.selectedview>7) {
-      PioneerDDJSX2.selectedpanel=0;
+    PioneerDDJSX2.curView++;
+    if (PioneerDDJSX2.curView>7) {
+      PioneerDDJSX2.curPanel=0;
     }
-    print(PioneerDDJSX2.selectedview);
-    engine.setValue("[Master]","show_4decks",PioneerDDJSX2.selectedview&1);
-    engine.setValue("[Deere]","show_stacked_waveforms",PioneerDDJSX2.selectedview&2);
-    engine.setValue("[Master]","hide_mixer",PioneerDDJSX2.selectedview&4);
+    print(PioneerDDJSX2.curView);
+    engine.setValue("[Master]","show_4decks",PioneerDDJSX2.curView&1);
+    engine.setValue("[Deere]","show_stacked_waveforms",PioneerDDJSX2.curView&2);
+    engine.setValue("[Master]","hide_mixer",PioneerDDJSX2.curView&4);
   }
 };
 
