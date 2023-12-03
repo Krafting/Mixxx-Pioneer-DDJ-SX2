@@ -144,23 +144,7 @@ PioneerDDJSX2.FinalTurnPos=[-1,-1,-1,-1];
 PioneerDDJSX2.rollPrec=[2,2,2,2];
 
 // slicer variables
-PioneerDDJSX2.oldbeat=[0,0,0,0];
 PioneerDDJSX2.beat=[0,0,0,0];
-PioneerDDJSX2.slicerstatus=[0,0,0,0];
-PioneerDDJSX2.slicerdelta=[0,0,0,0];
-PioneerDDJSX2.slicerbutton=[0,0,0,0];
-PioneerDDJSX2.slicerbuttonold=[0,0,0,0];
-PioneerDDJSX2.slicerblank=[0,0,0,0];
-PioneerDDJSX2.slicertype=[0,0,0,0];
-PioneerDDJSX2.slicergain=[0,0,0,0];
-PioneerDDJSX2.slicerpost=[0,0,0,0];
-PioneerDDJSX2.IgnoreBA=[0,0,0,0];
-PioneerDDJSX2.IgnoreBC=[0,0,0,0];
-PioneerDDJSX2.slicersched=[0,0,0,0];
-PioneerDDJSX2.wherewerewe=[0,0,0,0];
-PioneerDDJSX2.sliceractive=[0,0,0,0];
-PioneerDDJSX2.whohandles=[0,0,0,0];
-PioneerDDJSX2.slicerlightforce=[0,0,0,0];
 
 // sampler variables
 PioneerDDJSX2.samplerVolume=1.0;
@@ -227,7 +211,8 @@ PioneerDDJSX2.linkType=[
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0]
-  ],[
+  ],
+  [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0]
@@ -310,14 +295,14 @@ PioneerDDJSX2.init=function(id) {
   PioneerDDJSX2.settings={
     alpha: alpha,
     beta: alpha/32,
-    jogResolution: 2054,// 2054 for accurate scratches (until we find a more accurate value)
+    jogResolution: 2054, // 2054 for accurate scratches (until we find a more accurate value)
     vinylSpeed: 33+1/3,
     loopIntervals: ['0.03125','0.0625','0.125','0.25','0.5','1','2','4','8','16','32','64'],
     tempoRanges: [0.08,0.16,0.5,0.9],
     rollColors: [0x1d,0x16,0x13,0x0d,0x05],
     cueLoopColors: [0x30,0x35,0x3a,0x01,0x05,0x0a,0x10,0x15,0x1a,0x24,0x27,0x2a],
-    safeScratchTimeout: 20,// 20ms is the minimum allowed here.
-    CenterLightBehavior: 1,// 0 for rotations,1 for beats,-1 to disable
+    safeScratchTimeout: 20, // 20ms is the minimum allowed here.
+    CenterLightBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
     DoNotTrickController: 0 // do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
   };
     
@@ -411,7 +396,6 @@ PioneerDDJSX2.BindControlConnections=function(isUnbinding) {
     engine.connectControl(channelGroup,'loop_halve','PioneerDDJSX2.LoopHalve',isUnbinding);
     engine.connectControl(channelGroup,'rate','PioneerDDJSX2.RateThing',isUnbinding);
     engine.connectControl(channelGroup,'beat_next','PioneerDDJSX2.BeatActive',isUnbinding);
-    engine.connectControl(channelGroup,'beat_closest','PioneerDDJSX2.BeatClosest',isUnbinding);
     engine.connectControl(channelGroup,'eject','PioneerDDJSX2.UnloadLights',isUnbinding);
     engine.connectControl(channelGroup,'loop_enabled','PioneerDDJSX2.ReloopExit',isUnbinding);
     engine.connectControl(channelGroup,'loop_in','PioneerDDJSX2.ReloopExit',isUnbinding);
@@ -525,152 +509,14 @@ PioneerDDJSX2.slipenabled=function(value, group, control) {
 PioneerDDJSX2.BeatActive=function(value, group, control) {
   var channel=PioneerDDJSX2.enumerations.channelGroups[group];  
   var howmuchshallwejump=0;
-  // slicer
-  if (!PioneerDDJSX2.IgnoreBA[channel]) {
-    if (PioneerDDJSX2.sliceractive[channel] && !PioneerDDJSX2.slicersched[channel]) {
-      print("slicer off...");
-      PioneerDDJSX2.sliceractive[channel]=0;
-      PioneerDDJSX2.slicerbuttonold[channel]=0;
-      PioneerDDJSX2.whohandles[channel]=0;
-      engine.setValue(group,"slip_enabled",0);
-      //engine.setValue(group,"beatjump",-PioneerDDJSX2.wherewerewe[channel]);
-      PioneerDDJSX2.wherewerewe[channel]=0;
-    }
-    if (PioneerDDJSX2.slicersched[channel]) {
-      // process schedule
-      if (PioneerDDJSX2.sliceractive[channel]) {
-        // umm
-        print("doing postslice");
-        PioneerDDJSX2.IgnoreBA[channel]=((-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-1)==0)?0:1;
-        PioneerDDJSX2.IgnoreBC[channel]=((-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-1)==0)?0:1;
-        engine.setValue(group,"beatjump",-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-1);
-        PioneerDDJSX2.wherewerewe[channel]-=(PioneerDDJSX2.slicerbuttonold[channel]-PioneerDDJSX2.slicerbutton[channel])+1;
-        PioneerDDJSX2.slicerbuttonold[channel]=PioneerDDJSX2.slicerbutton[channel];
-        PioneerDDJSX2.slicersched[channel]=0;
-      } else {
-        // ok
-        print("doing slicer");
-        PioneerDDJSX2.whohandles[channel]=1;
-        PioneerDDJSX2.IgnoreBA[channel]=1;
-        PioneerDDJSX2.IgnoreBC[channel]=1;
-        PioneerDDJSX2.slicerbuttonold[channel]=PioneerDDJSX2.slicerbutton[channel];
-        PioneerDDJSX2.wherewerewe[channel]=-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-1;
-        engine.setValue(group,"slip_enabled",1);
-        engine.setValue(group,"beatjump",PioneerDDJSX2.wherewerewe[channel]);
-        PioneerDDJSX2.slicersched[channel]=0;
-        PioneerDDJSX2.sliceractive[channel]=1;
-      }
-    }
-  } else {
-    print("PioneerDDJSX2.IgnoreBAOff");
-    PioneerDDJSX2.IgnoreBA[channel]=0;
-  }
   // slicer lights
   print(value);
-  PioneerDDJSX2.oldbeat[channel]=PioneerDDJSX2.beat[channel];
   PioneerDDJSX2.beat[channel]=Math.round(value/engine.getValue(group,"track_samplerate")*(engine.getValue(group,"file_bpm")/120.0))-1;
-  if (PioneerDDJSX2.PadMode[channel]==6 && (PioneerDDJSX2.beat[channel]%8)==0 && (PioneerDDJSX2.oldbeat[channel]%8)==7) {
-    print("should jump");
-    engine.setValue(group,"beatjump",-8);
-  }
-  if ((!PioneerDDJSX2.slicerblank[channel] && PioneerDDJSX2.slicerstatus[channel]==0 && PioneerDDJSX2.slicerpost[channel]==0)/*||(PioneerDDJSX2.slicerlightforce[channel]==1)*/) {
-    // slicer lights,if we are in slicer mode
-    if (PioneerDDJSX2.PadMode[channel]==2) {
-      print("sending lights");
-      midi.sendShortMsg(0x97+channel,0x20,((Math.floor(PioneerDDJSX2.beat[channel]%8))==0)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x21,((Math.floor(PioneerDDJSX2.beat[channel]%8))==1)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x22,((Math.floor(PioneerDDJSX2.beat[channel]%8))==2)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x23,((Math.floor(PioneerDDJSX2.beat[channel]%8))==3)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x24,((Math.floor(PioneerDDJSX2.beat[channel]%8))==4)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x25,((Math.floor(PioneerDDJSX2.beat[channel]%8))==5)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x26,((Math.floor(PioneerDDJSX2.beat[channel]%8))==6)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x27,((Math.floor(PioneerDDJSX2.beat[channel]%8))==7)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x28,((Math.floor(PioneerDDJSX2.beat[channel]%8))==0)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x29,((Math.floor(PioneerDDJSX2.beat[channel]%8))==1)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x2a,((Math.floor(PioneerDDJSX2.beat[channel]%8))==2)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x2b,((Math.floor(PioneerDDJSX2.beat[channel]%8))==3)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x2c,((Math.floor(PioneerDDJSX2.beat[channel]%8))==4)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x2d,((Math.floor(PioneerDDJSX2.beat[channel]%8))==5)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x2e,((Math.floor(PioneerDDJSX2.beat[channel]%8))==6)?0x01:0x28);
-      midi.sendShortMsg(0x97+channel,0x2f,((Math.floor(PioneerDDJSX2.beat[channel]%8))==7)?0x01:0x28);
-    }
-    // slicer loop lights
-    if (PioneerDDJSX2.PadMode[channel]==6) {
-      print("sending lights 1");
-      midi.sendShortMsg(0x97+channel,0x60,((Math.floor(PioneerDDJSX2.beat[channel]%8))==0)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x61,((Math.floor(PioneerDDJSX2.beat[channel]%8))==1)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x62,((Math.floor(PioneerDDJSX2.beat[channel]%8))==2)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x63,((Math.floor(PioneerDDJSX2.beat[channel]%8))==3)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x64,((Math.floor(PioneerDDJSX2.beat[channel]%8))==4)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x65,((Math.floor(PioneerDDJSX2.beat[channel]%8))==5)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x66,((Math.floor(PioneerDDJSX2.beat[channel]%8))==6)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x67,((Math.floor(PioneerDDJSX2.beat[channel]%8))==7)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x68,((Math.floor(PioneerDDJSX2.beat[channel]%8))==0)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x69,((Math.floor(PioneerDDJSX2.beat[channel]%8))==1)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x6a,((Math.floor(PioneerDDJSX2.beat[channel]%8))==2)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x6b,((Math.floor(PioneerDDJSX2.beat[channel]%8))==3)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x6c,((Math.floor(PioneerDDJSX2.beat[channel]%8))==4)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x6d,((Math.floor(PioneerDDJSX2.beat[channel]%8))==5)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x6e,((Math.floor(PioneerDDJSX2.beat[channel]%8))==6)?0x28:0x01);
-      midi.sendShortMsg(0x97+channel,0x6f,((Math.floor(PioneerDDJSX2.beat[channel]%8))==7)?0x28:0x01);
-    }
-    if (PioneerDDJSX2.slicerlightforce[channel]==1) {
-      PioneerDDJSX2.slicerlightforce[channel]=0;
-    }
-  } else {
-    PioneerDDJSX2.slicerpost[channel]=0;
-  }
   // center deck light,if mode set to 1
   if (PioneerDDJSX2.settings.CenterLightBehavior==1) {
     midi.sendShortMsg(0xbb,0x04+channel,1+(PioneerDDJSX2.beat[channel]%8));
   }
-  //midi.sendShortMsg(0x90,0x24, 0x7f);
-};
-
-PioneerDDJSX2.BeatClosest=function(value, group, control) {
-  var channel=PioneerDDJSX2.enumerations.channelGroups[group];
-  if (!PioneerDDJSX2.IgnoreBC[channel]) {
-    if (PioneerDDJSX2.sliceractive[channel] && !PioneerDDJSX2.slicersched[channel]) {
-      if (PioneerDDJSX2.whohandles[channel]==2 && PioneerDDJSX2.slicertype[channel]==1) {
-        print("slicer off..1.");
-        PioneerDDJSX2.sliceractive[channel]=0;
-        PioneerDDJSX2.slicerbuttonold[channel]=0;
-        PioneerDDJSX2.whohandles[channel]=0;
-        engine.setValue(group,"slip_enabled",0);
-        //engine.setValue(group,"beatjump",-PioneerDDJSX2.wherewerewe[channel]);
-        PioneerDDJSX2.wherewerewe[channel]=0;
-      }
-    }
-    if (PioneerDDJSX2.slicersched[channel]) {
-      if (PioneerDDJSX2.sliceractive[channel]) {
-        print("postslice in HB");
-        PioneerDDJSX2.IgnoreBA[channel]=((-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-1)==0)?0:1;
-        PioneerDDJSX2.IgnoreBC[channel]=((-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-1)==0)?0:1;
-        engine.setValue(group,"beatjump",-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-0.5);
-        PioneerDDJSX2.wherewerewe[channel]-=(PioneerDDJSX2.slicerbuttonold[channel]-PioneerDDJSX2.slicerbutton[channel])+0.5;
-        PioneerDDJSX2.slicerbuttonold[channel]=PioneerDDJSX2.slicerbutton[channel];
-        PioneerDDJSX2.slicersched[channel]=0;
-      } else {
-        // ok
-        print("doing slicer,halfbeat");
-        PioneerDDJSX2.whohandles[channel]=2;
-        PioneerDDJSX2.IgnoreBA[channel]=1;
-        PioneerDDJSX2.IgnoreBC[channel]=1;
-        PioneerDDJSX2.slicerbuttonold[channel]=PioneerDDJSX2.slicerbutton[channel];
-        PioneerDDJSX2.wherewerewe[channel]=-(PioneerDDJSX2.beat[channel]%8)+PioneerDDJSX2.slicerbutton[channel]-0.5;
-        PioneerDDJSX2.slicergain[channel]=Math.pow(engine.getValue(group,"VuMeter"),2.5);
-        print(PioneerDDJSX2.slicergain[channel]);
-        PioneerDDJSX2.slicertype[channel]=(Math.floor(PioneerDDJSX2.beat[channel]%8)!=7 && !(Math.round(PioneerDDJSX2.slicergain[channel])))?2:1;
-        engine.setValue(group,"slip_enabled",1);
-        engine.setValue(group,"beatjump",PioneerDDJSX2.wherewerewe[channel]);
-        PioneerDDJSX2.slicersched[channel]=0;
-        PioneerDDJSX2.sliceractive[channel]=1;
-      }
-    }
-  } else {
-    print("PioneerDDJSX2.IgnoreBCOff");
-    PioneerDDJSX2.IgnoreBC[channel]=0;
-  }
+  //midi.sendShortMsg(0x90,0x24,0x7f);
 };
 
 // This handles LEDs related to the PFL/Headphone Cue event.
@@ -1616,13 +1462,7 @@ PioneerDDJSX2.SlicerThing=function(performanceChannel, control, value, status) {
   var group='[Channel'+(deck+1)+']';
     
   if (value==0x7F && engine.getValue(group,"play") && engine.getValue(group,"bpm")>0) {
-    if (!PioneerDDJSX2.slicersched[deck]) {
-      PioneerDDJSX2.slicersched[deck]=1;
-      PioneerDDJSX2.slicerbutton[deck]=(control-32)%8;
-      print("slicer scheduled: "+PioneerDDJSX2.slicerbutton[deck]);
-    } else {
-      print("slicer already scheduled,not doing anything");
-    }
+    // fuck the slicer
   }
 };
 
