@@ -4,8 +4,6 @@
 
 based on hrudham's DDJ-SR mapping, with lots of modifications to make it work on the SX2.
 
-use Mixxx v2.0 for this mapping.
-
 ## How do I use it?
 
 if you just want to get your controller working with Mixxx without bothering about the details much, then do the following:
@@ -16,7 +14,7 @@ if you just want to get your controller working with Mixxx without bothering abo
     - Linux: `/usr/share/mixxx/controllers or /usr/local/share/mixxx/controllers`
     - OS X: `/Applications/Mixxx.app/Contents/Resources/controllers/`
 3. make sure your Pioneer DDJ-SX2 is plugged in and turned on.
-4. open (or restart) Mixxx, and enjoy using your (almost-fully-functional) controller
+4. open (or restart) Mixxx, and enjoy using your controller
 
 ### Controller Setup
 
@@ -80,7 +78,7 @@ the DDJ-SX2 uses a SysEx to go into Serato mode, so we trick the controller into
 
 ## What's missing
 
-- slicer with different precisions
+- removing the slicer and replacing it with something else
 
 ## What's not possible at all?
 
@@ -94,6 +92,6 @@ awesome! go to the "Issues" section, and create an issue.
 
 ## I want to help.
 
-you can fork this repository, clone it, install this mapping, and modify it using Mixxx and your favorite text editor (don't use Notepad though (unless you're an Insider), it does not recognize LF line endings). then copy the changes back to cloned repo, and commit.
+you can fork this repository, clone it, install this mapping, and modify it using Mixxx and your favorite text editor. then copy the changes back to cloned repo, and commit.
 
 make a pull request when done.
