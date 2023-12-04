@@ -37,6 +37,20 @@ it *might* work but many features will be missing.
 
 it's very likely that it won't work. newer controllers are totally different.
 
+# are you going to upstream this?
+
+not yet - it still needs some work before that can happen:
+
+- a large portion of the code is from 2016, a year where I didn't have a consistent coding style yet and therefore it looks like a mess.
+- many of the run-time variables are defined outside. it's ugly.
+- some functions are unoptimized (for example, triggering samplers may result in some lag).
+- the Flip buttons are mapped to key shift, but that's not what they're supposed to do.
+- the code for advanced effect configuration is disabled - it looks too complicated and I am not sure whether I should re-enable it considering Mixxx's new effect framework works much better.
+- some lights turn off when pressing Shift.
+- sampler pads missing the ability to load in new samples.
+- even my current coding style is incompatible with that of Mixxx's.
+- there may be some other things I probably missed.
+
 # I found a bug.
 
 awesome! go to the "Issues" section, and create an issue.
