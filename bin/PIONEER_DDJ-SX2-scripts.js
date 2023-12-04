@@ -88,7 +88,7 @@ PioneerDDJSX2.padColors=new ColorMapper({
    0xFF1000: 40,
 
    0xFF0000: 41,
-   0xFF0010: 42,
+   0xFF0020: 42,
    0xFF0030: 43,
    0xFF0060: 44,
    0xFF0090: 45,
@@ -1469,7 +1469,7 @@ PioneerDDJSX2.BeatJump=function(performanceChannel, control, value, status) {
     }
   }
 
-  midi.sendShortMsg(0x97+deck,control,(value==0x7f)?(PioneerDDJSX2.settings.beatJumpColors[which]):(0x00));
+  midi.sendShortMsg(0x97+deck,control,(value==0x7f)?(PioneerDDJSX2.settings.beatjumpColors[which]):(0x00));
 };
 
 // This handles the eight performance pads below the jog-wheels 
