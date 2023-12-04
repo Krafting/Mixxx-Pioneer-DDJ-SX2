@@ -1,47 +1,4 @@
-# Pioneer DDJ-SX2 MIDI Mapping for Mixxx
-
-## Effects Mapping
-
-Mixxx's effect framework now maps much better to Serato's one, which means it is easier to get a controller's effect controls working.
-
-however, Mixxx still has an "advanced" mode. don't worry, this mode is supported by this mapping, and is documented here.
-
-### Global Controls
-
-- shift + effect tap button (FX MODE): expand/collapse effect panel.
-
-### Normal Mode (effect panel collapsed)
-
-- effect knobs: control meta knobs.
-- buttons under effect knobs: turn effects on/off.
-- shift + buttons under effect knobs (FX SELECT): select effects.
-- effect tap button: select mix mode (wet/dry or wet+dry).
-- beats jog: control mix amount.
-
-### Advanced Mode (effect panel expanded)
-
-- to be done :(
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Old Effects Mapping (pre-2019)
+# Old Effects Mapping (pre-2019)
 
 **the information here is from the times where this controller mapping used a different layout for controlling the effects.**
 
