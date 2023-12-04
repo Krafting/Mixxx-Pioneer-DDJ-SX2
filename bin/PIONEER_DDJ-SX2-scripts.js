@@ -1,8 +1,6 @@
 // Pioneer DDJ-SX2 mapping for Mixxx
 // based on hrudham's mapping for the DDJ-SR
 // modifications by tildearrow
-// todo:
-// reorganize code
 // thanks to:
 // hrudham for making the DDJ-SR mapping
 // pioneer for making such an awesome controller
