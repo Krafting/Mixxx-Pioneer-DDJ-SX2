@@ -608,6 +608,12 @@ PioneerDDJSX2.ReloopExit=function(value, group, control) {
   midi.sendShortMsg(0x90+channel,0x11,(engine.getValue(group,"loop_end_position")>-1)?0x7F:0x00);
   // saved loop lights
   PioneerDDJSX2.SavedLoopLights(0,group,control);
+  // disable hot cue loop if it's off
+  if (!engine.getValue(group,"loop_enabled")) {
+    for (var i=0; i<4; i++) {
+      PioneerDDJSX2.HCLOn[i]=0;
+    }
+  }
 }; // reloop_exit
 
 PioneerDDJSX2.SavedLoopLights=function(value, group, control) {
@@ -711,6 +717,9 @@ PioneerDDJSX2.AutoLoop=function(channel, control, value, status) {
   if (value==127) {
     if (engine.getValue("[Channel"+(channel+1)+"]","loop_enabled")) {
       engine.setValue("[Channel"+(channel+1)+"]","reloop_exit",1);
+      for (var i=0; i<4; i++) {
+        PioneerDDJSX2.HCLOn[i]=0;
+      }
     } else {
       engine.setValue("[Channel"+(channel+1)+"]","beatloop_activate",1);
     }
