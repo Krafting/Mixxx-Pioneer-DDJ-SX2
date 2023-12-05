@@ -220,6 +220,9 @@ PioneerDDJSX2.linkTypeTimer=0;
 PioneerDDJSX2.currenteffect=[3,3];
 PioneerDDJSX2.currenteffectparamset=[0,0,0,0,0,0,0,0];
 
+// connections
+PioneerDDJSX2.conns=[];
+
 // VARIABLES END //
 
 // TODO: this is VERY unhealthy. optimize.
@@ -317,6 +320,26 @@ PioneerDDJSX2.init=function(id) {
       '[Channel2]': 0x01,
       '[Channel3]': 0x02,
       '[Channel4]': 0x03
+    },
+    hotcueIndex: {
+      'hotcue_1_enabled': 0,
+      'hotcue_2_enabled': 1,
+      'hotcue_3_enabled': 2,
+      'hotcue_4_enabled': 3,
+      'hotcue_5_enabled': 4,
+      'hotcue_6_enabled': 5,
+      'hotcue_7_enabled': 6,
+      'hotcue_8_enabled': 7
+    },
+    hotcueIndexColors: {
+      'hotcue_1_color': 0,
+      'hotcue_2_color': 1,
+      'hotcue_3_color': 2,
+      'hotcue_4_color': 3,
+      'hotcue_5_color': 4,
+      'hotcue_6_color': 5,
+      'hotcue_7_color': 6,
+      'hotcue_8_color': 7
     }
   };
     
@@ -335,7 +358,7 @@ PioneerDDJSX2.init=function(id) {
   midi.sendShortMsg(0x91,0x1b,0x7f);
   midi.sendShortMsg(0x92,0x1b,0x7f);
   midi.sendShortMsg(0x93,0x1b,0x7f);
-  PioneerDDJSX2.BindControlConnections(false);
+  PioneerDDJSX2.BindControlConnections();
   // increase resonance of filter
   engine.setValue("[QuickEffectRack1_[Channel1]_Effect1]","parameter2",4);
   engine.setValue("[QuickEffectRack1_[Channel2]_Effect1]","parameter2",4);
@@ -375,51 +398,59 @@ PioneerDDJSX2.init=function(id) {
   //midi.sendSysexMsg(PioneerDDJSX2.recallState,PioneerDDJSX2.recallState.length);
 }
 
-PioneerDDJSX2.BindControlConnections=function(isUnbinding) {
+PioneerDDJSX2.BindControlConnections=function() {
   for (var channelIndex=1; channelIndex<=4; channelIndex++) {
     var channelGroup='[Channel'+channelIndex+']';
     // Hook up the VU meters
-    engine.connectControl(channelGroup,'VuMeter','PioneerDDJSX2.vuMeter',isUnbinding);
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'VuMeter',PioneerDDJSX2.vuMeter));
     // the disc lights
-    engine.connectControl(channelGroup,'playposition','PioneerDDJSX2.deckLights',isUnbinding);
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'playposition',PioneerDDJSX2.deckLights));
     // Play/Pause LED
-    engine.connectControl(channelGroup,'play_indicator','PioneerDDJSX2.PlayLeds',isUnbinding);
-    engine.connectControl(channelGroup,'sync_enabled','PioneerDDJSX2.SyncLights',isUnbinding);
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'play_indicator',PioneerDDJSX2.PlayLeds));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'sync_enabled',PioneerDDJSX2.SyncLights));
     // Cue LED
-    engine.connectControl(channelGroup,'cue_indicator','PioneerDDJSX2.CueLeds',isUnbinding);
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'cue_indicator',PioneerDDJSX2.CueLeds));
     // PFL/Headphone Cue LED
-    engine.connectControl(channelGroup,'pfl','PioneerDDJSX2.HeadphoneCueLed',isUnbinding);
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'pfl',PioneerDDJSX2.HeadphoneCueLed));
     // Keylock LED
-    engine.connectControl(channelGroup,'keylock','PioneerDDJSX2.KeyLockLeds',isUnbinding);
-    engine.connectControl(channelGroup,'loop_double','PioneerDDJSX2.LoopDouble',isUnbinding);
-    engine.connectControl(channelGroup,'loop_halve','PioneerDDJSX2.LoopHalve',isUnbinding);
-    engine.connectControl(channelGroup,'rate','PioneerDDJSX2.RateThing',isUnbinding);
-    engine.connectControl(channelGroup,'beat_next','PioneerDDJSX2.BeatActive',isUnbinding);
-    engine.connectControl(channelGroup,'eject','PioneerDDJSX2.UnloadLights',isUnbinding);
-    engine.connectControl(channelGroup,'loop_enabled','PioneerDDJSX2.ReloopExit',isUnbinding);
-    engine.connectControl(channelGroup,'loop_in','PioneerDDJSX2.ReloopExit',isUnbinding);
-    engine.connectControl(channelGroup,'loop_out','PioneerDDJSX2.ReloopExit',isUnbinding);
-    engine.connectControl(channelGroup,'track_samples','PioneerDDJSX2.LoadActions',isUnbinding);
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'keylock',PioneerDDJSX2.KeyLockLeds));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'loop_double',PioneerDDJSX2.LoopDouble));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'loop_halve',PioneerDDJSX2.LoopHalve));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'rate',PioneerDDJSX2.RateThing));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'beat_next',PioneerDDJSX2.BeatActive));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'eject',PioneerDDJSX2.UnloadLights));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'loop_enabled',PioneerDDJSX2.ReloopExit));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'loop_in',PioneerDDJSX2.ReloopExit));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'loop_out',PioneerDDJSX2.ReloopExit));
+    PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'track_samples',PioneerDDJSX2.LoadActions));
     // Hook up the hot cue/saved loop performance pads
     for (var i=0; i<8; i++) {
-      engine.connectControl(channelGroup,'hotcue_'+(i+1)+'_enabled','PioneerDDJSX2.HotCuePerformancePadLed',isUnbinding);
-      engine.connectControl(channelGroup,'hotcue_'+(16+(i*2))+'_enabled','PioneerDDJSX2.SavedLoopLights',isUnbinding);
+      PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'hotcue_'+(i+1)+'_enabled',PioneerDDJSX2.HotCuePerformancePadLed));
+      PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'hotcue_'+(i+1)+'_color',PioneerDDJSX2.HotCuePerformancePadLedColor));
+      PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup,'hotcue_'+(16+(i*2))+'_enabled',PioneerDDJSX2.SavedLoopLights));
     }
   }
   // effect lights
-  engine.connectControl('[EffectRack1_EffectUnit1]','group_[Channel1]_enable','PioneerDDJSX2.FX1CH1',isUnbinding);
-  engine.connectControl('[EffectRack1_EffectUnit2]','group_[Channel1]_enable','PioneerDDJSX2.FX2CH1',isUnbinding);
-  engine.connectControl('[EffectRack1_EffectUnit1]','group_[Channel2]_enable','PioneerDDJSX2.FX1CH2',isUnbinding);
-  engine.connectControl('[EffectRack1_EffectUnit2]','group_[Channel2]_enable','PioneerDDJSX2.FX2CH2',isUnbinding);
-  engine.connectControl('[EffectRack1_EffectUnit1]','group_[Channel3]_enable','PioneerDDJSX2.FX1CH3',isUnbinding);
-  engine.connectControl('[EffectRack1_EffectUnit2]','group_[Channel3]_enable','PioneerDDJSX2.FX2CH3',isUnbinding);
-  engine.connectControl('[EffectRack1_EffectUnit1]','group_[Channel4]_enable','PioneerDDJSX2.FX1CH4',isUnbinding);
-  engine.connectControl('[EffectRack1_EffectUnit2]','group_[Channel4]_enable','PioneerDDJSX2.FX2CH4',isUnbinding);
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit1]','group_[Channel1]_enable',PioneerDDJSX2.FX1CH1));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit2]','group_[Channel1]_enable',PioneerDDJSX2.FX2CH1));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit1]','group_[Channel2]_enable',PioneerDDJSX2.FX1CH2));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit2]','group_[Channel2]_enable',PioneerDDJSX2.FX2CH2));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit1]','group_[Channel3]_enable',PioneerDDJSX2.FX1CH3));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit2]','group_[Channel3]_enable',PioneerDDJSX2.FX2CH3));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit1]','group_[Channel4]_enable',PioneerDDJSX2.FX1CH4));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit2]','group_[Channel4]_enable',PioneerDDJSX2.FX2CH4));
   // pitch
-  engine.connectControl('[Channel1]','pitch_adjust','PioneerDDJSX2.PitchAdjust',isUnbinding);
-  engine.connectControl('[Channel2]','pitch_adjust','PioneerDDJSX2.PitchAdjust',isUnbinding);
-  engine.connectControl('[Channel3]','pitch_adjust','PioneerDDJSX2.PitchAdjust',isUnbinding);
-  engine.connectControl('[Channel4]','pitch_adjust','PioneerDDJSX2.PitchAdjust',isUnbinding);
+  PioneerDDJSX2.conns.push(engine.makeConnection('[Channel1]','pitch_adjust',PioneerDDJSX2.PitchAdjust));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[Channel2]','pitch_adjust',PioneerDDJSX2.PitchAdjust));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[Channel3]','pitch_adjust',PioneerDDJSX2.PitchAdjust));
+  PioneerDDJSX2.conns.push(engine.makeConnection('[Channel4]','pitch_adjust',PioneerDDJSX2.PitchAdjust));
+};
+
+PioneerDDJSX2.UnbindControlConnections=function() {
+  for (var i=0; i<conns.length; i++) {
+    PioneerDDJSX2.conns[i].disconnect();
+  }
+  PioneerDDJSX2.conns=[];
 };
 
 PioneerDDJSX2.SyncLights=function(value, group, control) {
@@ -1243,26 +1274,51 @@ PioneerDDJSX2.UpdateCueLoopLights=function(channel) {
   }
 }
 
+PioneerDDJSX2.HotCuePerformancePadLedColor=function(value, group, control) {
+  var channel=PioneerDDJSX2.enumerations.channelGroups[group];
+  var i=PioneerDDJSX2.enumerations.hotcueIndexColors[control];
+    
+  if (i===undefined) return;
+  
+  if (value!==-1 && engine.getValue(group,'hotcue_'+(i+1)+'_enabled')==1) { // on
+    const padColor=PioneerDDJSX2.padColors.getValueForNearestColor(value);
+    // Pad LED without shift key
+    midi.sendShortMsg(0x97+channel,0x00+i,padColor);
+    // Pad LED with shift key
+    midi.sendShortMsg(0x97+channel,0x00+i+0x08,padColor);
+  } else { // off
+    // Pad LED without shift key
+    midi.sendShortMsg(0x97+channel,0x00+i,0x00);
+    // Pad LED with shift key
+    midi.sendShortMsg(0x97+channel,0x00+i+0x08,0x00);
+  }
+};
+
 PioneerDDJSX2.HotCuePerformancePadLed=function(value, group, control) {
   var channel=PioneerDDJSX2.enumerations.channelGroups[group];
+  var i=PioneerDDJSX2.enumerations.hotcueIndex[control];
+    
+  if (i===undefined) return;
   
-  var padIndex=null;
-
-  for (var i=1; i<9; i++) {
-    if (control==='hotcue_'+i+'_enabled') {
-      const colorCode=engine.getValue(group,'hotcue_'+i+'_color');
-      const padColor=PioneerDDJSX2.padColors.getValueForNearestColor(colorCode);
-        
-      // Pad LED without shift key
-      midi.sendShortMsg(0x97+channel,0x00+i-1,value?padColor:0x00);
-      // Pad LED with shift key
-      midi.sendShortMsg(0x97+channel,0x00+i-1+0x08,value?padColor:0x00);
-
-      midi.sendShortMsg(0x97+channel,0x40+i-1,value?(PioneerDDJSX2.settings.cueLoopColors[3]):0x00);  
-      // Loop Pad LED with shift key
-      midi.sendShortMsg(0x97+channel,0x40+i-1+0x08,value?(PioneerDDJSX2.settings.cueLoopColors[3]):0x00);
-    }
-    padIndex=i;
+  if (value===1) { // on
+    const padColor=PioneerDDJSX2.padColors.getValueForNearestColor(engine.getValue(group,'hotcue_'+(i+1)+'_color'));
+    // Pad LED without shift key
+    midi.sendShortMsg(0x97+channel,0x00+i,padColor);
+    // Pad LED with shift key
+    midi.sendShortMsg(0x97+channel,0x00+i+0x08,padColor);
+    // Loop Pad LED without shift key
+    midi.sendShortMsg(0x97+channel,0x40+i,(PioneerDDJSX2.settings.cueLoopColors[3]));  
+    // Loop Pad LED with shift key
+    midi.sendShortMsg(0x97+channel,0x40+i+0x08,(PioneerDDJSX2.settings.cueLoopColors[3]));
+  } else { // off
+    // Pad LED without shift key
+    midi.sendShortMsg(0x97+channel,0x00+i,0x00);
+    // Pad LED with shift key
+    midi.sendShortMsg(0x97+channel,0x00+i+0x08,0x00);
+    // Loop Pad LED without shift key
+    midi.sendShortMsg(0x97+channel,0x40+i,0x00);  
+    // Loop Pad LED with shift key
+    midi.sendShortMsg(0x97+channel,0x40+i+0x08,0x00);
   }
 };
 
@@ -1587,7 +1643,7 @@ PioneerDDJSX2.RotarySelectorClick=function(channel, control, value, status) {
 };
 
 PioneerDDJSX2.shutdown=function() {
-  //PioneerDDJSX2.BindControlConnections(true);
+  PioneerDDJSX2.UnbindControlConnections();
   
   // disable VU meters
   PioneerDDJSX2.vuMeter(0,'[Channel1]','VuMeter');
