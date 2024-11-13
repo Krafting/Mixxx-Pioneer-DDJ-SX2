@@ -1,16 +1,16 @@
 # Pioneer DDJ-SX2 MIDI Mapping for Mixxx - user guide
 
-most controls work identically in both Serato and Mixxx - refer to the official manual for these.
+Most controls work identically in both Serato and Mixxx - refer to the official manual for these.
 
-however, some of these controls work differently when using this mapping. the next sections deal with these.
+However, some of these controls work differently when using this mapping, the next sections detail these.
 
-# browser section
+# Browser section
 
-the TRACK#, BPM, SONG and ARTIST do not have any effect. Mixxx does not expose a control which allows sorting by trait. this may have changed in the latest version, but I am not sure.
+The TRACK#, BPM, SONG and ARTIST sort the Library. (Song is the Title in Mixxx)
 
-pressing the rotary selector switches between the left and right panels of the Library.
+Pressing the rotary selector switches between the left and right panels of the Library. While also expanding crates/playlists.
 
-the BACK button goes to the left panel of the Library.
+The BACK button goes to the left panel of the Library.
 
 VIEW (SHIFT + BACK) toggles between 8 view modes:
 - two decks, waveforms in decks, mixer visible
@@ -22,13 +22,13 @@ VIEW (SHIFT + BACK) toggles between 8 view modes:
 - two decks, stacked waveforms, mixer hidden
 - four decks, stacked waveforms, mixer hidden
 
-stacked waveforms is a Deere-skin-specific setting.
+Stacked waveforms is a Deere-skin-specific setting.
 
-the LOAD PREPARE button has no effect.
+The LOAD PREPARE button load infos about the song (BPM, Key and show wave preview).
 
 AREA (SHIFT + LOAD PREPARE) expands the library, or collapses it if already expanded.
 
-# deck section
+# Deck section
 
 SHIFT + KEY LOCK: change tempo range. the available ranges are:
 - ±8%
@@ -36,12 +36,12 @@ SHIFT + KEY LOCK: change tempo range. the available ranges are:
 - ±50%
 - ±90% (Mixxx maximum)
 
-the takeover indicators (the triangle LEDs in the tempo slider) turn on when the tempo slider is moved up or down.
+The takeover indicators (the triangle LEDs in the tempo slider) turn on when the tempo slider is moved up or down.
 
 AUTO LOOP starts a beat loop at the playing position.
 when beat loop is active, this button will disable it.
 
-loop SLOT SELECT (SHIFT + IN) has no effect since Mixxx does not have loop slots.
+Loop SLOT SELECT (SHIFT + IN) has no effect since Mixxx does not have loop slots.
 
 RELOOP/EXIT and LOOP ACTIVE perform the same operation.
 
@@ -71,44 +71,44 @@ beat grid operation:
 
 PANEL SELECT toggles between sampler, effects and nothing.
 
-# mixer section
+# Mixer section
 
-when this mapping is loaded, the filter resonance is increased to sound better.
+When this mapping is loaded, the filter resonance is increased to sound better.
 
-crossfader start is not implemented (?).
+Crossfader start is not implemented (?).
 
-sampler volume sets pre-gain on all sampler slots since there's no global sampler volume control in Mixxx.
+Sampler volume sets pre-gain on all sampler slots since there's no global sampler volume control in Mixxx.
 
-# effect section
+# Effect section
 
 Mixxx's effect framework now has a "collapsed" mode which maps much better to the DDJ-SX2.
 
-however, Mixxx still has an "advanced" ("expanded") mode in where every effect parameter is exposed.
+However, Mixxx still has an "advanced" ("expanded") mode in where every effect parameter is exposed.
 
-this mapping only supports the collapsed mode, but I may revive the code for handling the advanced mode at some point.
+This mapping only supports the collapsed mode, but I may revive the code for handling the advanced mode at some point.
 
-the three effect knobs set the dry/wet level.
+The three effect knobs set the dry/wet level.
 
-the ON buttons toggle effects.
+The ON buttons toggle effects.
 
 FX SELECT (SHIFT + ON) changes the effect.
 
-the BEATS knob sets the wet/dry level of the effect unit.
+The BEATS knob sets the wet/dry level of the effect unit.
 
-the TAP button underneath sets whether to mix as wet/dry or wet+dry.
+The TAP button underneath sets whether to mix as wet/dry or wet+dry.
 
 FX MODE (SHIFT + TAP) allows you to expand or collapse the effect panel.
 
-# jog dial display section
+# Jog Dial display section
 
-the four red lights display the current beat or number of rotations (you can set this up by modifying the script).
+The four red lights display the current beat or number of rotations (you can set this up by modifying the script).
 
-# performance pads
+# Performance pads
 
-these allow you to trigger... yeah. you know.
+These allow you to trigger:
 
-- hot cue mode: set, seek to and clear hot cues. behavior is identical.
-- roll mode: trigger beat loops. the first pad triggers the shortest loop and the last one triggers the longest.
+- Hot Cue mode: set, seek to and clear hot cues. behavior is identical.
+- Roll Mode: trigger beat loops. the first pad triggers the shortest loop and the last one triggers the longest.
   - parameter 1 allows you to select the duration of these (in beats). the available durations are:
     - 1/32 shortest; 4 longest
     - 1/16 shortest; 8 longest
@@ -116,7 +116,7 @@ these allow you to trigger... yeah. you know.
     - 1/4 shortest; 32 longest
     - 1/2 shortest; 64 longest
   - the pads' color will change to reflect the selected durations.
-- slicer mode: actually beat jump mode when using this mapping.
+- Slicer Mode: actually beat jump mode when using this mapping.
   - the upper buttons trigger forward beat jumps.
   - the lower buttons trigger backward beat jumps.
   - pads at the left trigger shorter jumps.
@@ -132,15 +132,15 @@ these allow you to trigger... yeah. you know.
     -    4,    8,  16,  32
     -    8,   16,  32,  64
   - the color of the mode indicator will change to reflect the selected lengths.
-- sampler mode: trigger samples.
+- Sampler Mode: trigger samples.
   - parameter 1 allows you to choose between pages.
   - each page has 8 samples.
   - you can select one of 8 pages.
   - the Deere (64 Samplers) or Tango (64 Samplers) skin is necessary to view all 64 samples.
-- cue loop: same function as hot cue, but starts a loop.
-- saved loop: this allows you to store loops for later usage.
+- Cue Loop: same function as hot cue, but starts a loop.
+- Saved Loop: this allows you to store loops for later usage.
   - Mixxx does not have loop slots.
   - therefore this feature is implemented using hot cues as loop markers.
   - the parameter 1 button has no effect.
-- slicer loop: nothing to see here yet.
-- velocity sampler: same thing as sampler, except that the pads become pressure-sensitive and set volume when pressed.
+- Slicer Loop: nothing to see here yet.
+- Velocity Sampler: same thing as sampler, except that the pads become pressure-sensitive and set volume when pressed.
