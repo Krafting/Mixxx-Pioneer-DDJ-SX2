@@ -3710,6 +3710,16 @@
                 </options>
             </control>
             <control>
+              <group>[Playlist]</group>
+              <key>PioneerDDJSX2.rotarySelectorShiftedClick</key>
+              <description>Open/close selected left List, Knob: SHIFT &amp; BROWSER</description>
+              <status>0x96</status>
+              <midino>0x42</midino>
+              <options>
+                <script-binding/>
+              </options>
+            </control>
+            <control>
                 <group>[Channel1]</group>
                 <key>PioneerDDJSX2.HotCueLoop</key>
                 <status>0x97</status>
@@ -3950,6 +3960,42 @@
                 <midino>0x46</midino>
                 <options>
                     <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>PioneerDDJSX2.SortLibrary</key>
+                <status>0x96</status>
+                <midino>0x58</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Library]</group>
+                <key>PioneerDDJSX2.SortLibrary</key>
+                <status>0x96</status>
+                <midino>0x59</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Library]</group>
+                <key>PioneerDDJSX2.SortLibrary</key>
+                <status>0x96</status>
+                <midino>0x60</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Library]</group>
+                <key>PioneerDDJSX2.SortLibrary</key>
+                <status>0x96</status>
+                <midino>0x61</midino>
+                <options>
+                    <script-binding/>
                 </options>
             </control>
             <control>
@@ -5165,15 +5211,6 @@
                 <midino>0x58</midino>
                 <options>
                     <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group>[Deere]</group>
-                <key>show_no_bpm_info</key>
-                <status>0x96</status>
-                <midino>0x58</midino>
-                <options>
-                    <normal/>
                 </options>
             </control>
             <control>
