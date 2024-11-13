@@ -238,7 +238,7 @@ PioneerDDJSX2.init=function(id) {
     beatjumpColors: [0x3c,0x3a,0x38,0x36,0x34,0x32,0x30,0x2e,0x2c,0x2a,0x28],
     cueLoopColors: [0x30,0x35,0x3a,0x01,0x05,0x0a,0x10,0x15,0x1a,0x24,0x27,0x2a],
     safeScratchTimeout: 20, // 20ms is the minimum allowed here.
-    CenterLightBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
+    CenterLightBehavior: 0, // 0 for rotations, 1 for beats, -1 to disable
     DoNotTrickController: 0 // do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
   };
     
@@ -246,7 +246,7 @@ PioneerDDJSX2.init=function(id) {
     rotarySelector: {
       targets: {
         libraries: 0,
-        tracklist: 1
+        tracklist: 1 
       }
     },
     channelGroups: {
@@ -452,8 +452,10 @@ PioneerDDJSX2.BindControlConnections=function() {
 };
 
 PioneerDDJSX2.UnbindControlConnections=function() {
-  for (var i=0; i<conns.length; i++) {
-    PioneerDDJSX2.conns[i].disconnect();
+  for (var i=0; i < (PioneerDDJSX2.conns).length; i++) {
+    if (PioneerDDJSX2.conns[i] != undefined) {
+      PioneerDDJSX2.conns[i].disconnect();
+    } 
   }
   PioneerDDJSX2.conns=[];
 };
@@ -1582,6 +1584,32 @@ PioneerDDJSX2.RollPerformancePad=function(performanceChannel, control, value, st
   midi.sendShortMsg(0x97+deck-1,control,(value==0x7f)?(PioneerDDJSX2.settings.rollColors[PioneerDDJSX2.rollPrec[performanceChannel-7]]):(0x00));
 };
 
+// Function to sort the library with the Load buttons
+PioneerDDJSX2.SortLibrary = function(performanceChannel, control, value, status) {
+    // Only when key-down
+    if (value == 127) {
+      // Sort by BPM
+      if (control == 88) {
+        engine.setValue("[Library]",'sort_column_toggle',15);
+      }
+
+      // SONG == Sort by Title
+      if (control == 89) {
+        engine.setValue("[Library]",'sort_column_toggle',2);
+      }
+
+      // Sort by Track No
+      if (control == 96) {
+        engine.setValue("[Library]",'sort_column_toggle',9);
+      }
+
+      // Sort by Artist
+      if (control == 97) {
+        engine.setValue("[Library]",'sort_column_toggle',1);
+      }
+    }
+};
+
 // This handles the cue loop thingy.
 PioneerDDJSX2.HotCueLoop=function(performanceChannel, control, value, status) {
   var deck=performanceChannel-7;  
@@ -1689,6 +1717,11 @@ PioneerDDJSX2.RotarySelectorClick=function(channel, control, value, status) {
     var tracklist=PioneerDDJSX2.enumerations.rotarySelector.targets.tracklist;
     var libraries=PioneerDDJSX2.enumerations.rotarySelector.targets.libraries;
     
+    test = engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", 1);
+    console.error(test)
+    console.log(test)
+    print(test)
+    
     switch (PioneerDDJSX2.status.rotarySelector.target) {
       case tracklist:
         target=libraries;
@@ -1700,6 +1733,13 @@ PioneerDDJSX2.RotarySelectorClick=function(channel, control, value, status) {
     
     PioneerDDJSX2.status.rotarySelector.target=target;
   }
+};
+
+PioneerDDJSX2.rotarySelectorShiftedClick = function(channel, control, value) {
+    if (value) {
+        script.toggleControl("[Library]", "GoToItem");
+        // engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", 1);
+    }
 };
 
 PioneerDDJSX2.shutdown=function() {
