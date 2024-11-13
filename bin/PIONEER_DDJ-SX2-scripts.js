@@ -163,7 +163,7 @@ PioneerDDJSX2.samplerBank = [0, 0, 0, 0];
 PioneerDDJSX2.HCLOn = [0, 0, 0, 0];
 PioneerDDJSX2.HCLNum = [0, 0, 0, 0];
 
-// effect configurator variables
+// Effect configurator variables
 PioneerDDJSX2.linkType = [
 	[
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -180,7 +180,7 @@ PioneerDDJSX2.linkTypeTimer = 0;
 PioneerDDJSX2.currenteffect = [3, 3];
 PioneerDDJSX2.currenteffectparamset = [0, 0, 0, 0, 0, 0, 0, 0];
 
-// connections
+// Connections
 PioneerDDJSX2.conns = [];
 
 // VARIABLES END //
@@ -647,10 +647,12 @@ PioneerDDJSX2.LoadActions = function(value, group, control) {
 // This handles LEDs related
 PioneerDDJSX2.ReloopExit = function(value, group, control) {
 	var channel = PioneerDDJSX2.enumerations.channelGroups[group];
+
 	midi.sendShortMsg(0x90 + channel, 0x14, engine.getValue(group, "loop_enabled") ? 0x7F : 0x00);
 	midi.sendShortMsg(0x90 + channel, 0x10, (engine.getValue(group, "loop_start_position") > -1) ? 0x7F : 0x00);
 	midi.sendShortMsg(0x90 + channel, 0x11, (engine.getValue(group, "loop_end_position") > -1) ? 0x7F : 0x00);
-	// saved loop lights
+
+	// Saved loop lights
 	PioneerDDJSX2.SavedLoopLights(0, group, control);
 	// Disable hot cue loop if it's off
 	if (!engine.getValue(group, "loop_enabled")) {
@@ -658,7 +660,7 @@ PioneerDDJSX2.ReloopExit = function(value, group, control) {
 			PioneerDDJSX2.HCLOn[i] = 0;
 		}
 	}
-}; // reloop_exit
+}; 
 
 // LEDs for saved-loops
 PioneerDDJSX2.SavedLoopLights = function(value, group, control) {
@@ -835,7 +837,6 @@ PioneerDDJSX2.CPS = function(value, group, control) {
 
 // This handles selecting effects.
 PioneerDDJSX2.EffectSelect = function(value, group, control) {
-	//var channel = PioneerDDJSX2.enumerations.channelGroups[group];
 	engine.setValue("[EffectRack1_EffectUnit" + (value - 3) + "_Effect" + (group - 98) + "]", "effect_selector", (control == 127) ? 1 : 0);
 };
 
