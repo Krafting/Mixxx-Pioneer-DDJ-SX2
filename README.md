@@ -2,6 +2,8 @@
 
 Based on hrudham's DDJ-SR mapping, with lots of modifications to make it work on the SX2 and support most of its features.
 
+![images/PIONEER_DDJ-SX2.png](images/PIONEER_DDJ-SX2.png)
+
 # How do I use it?
 
 If you just want to get your controller working with Mixxx without bothering about the details much, then do the following:
