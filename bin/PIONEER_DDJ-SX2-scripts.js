@@ -241,7 +241,7 @@ PioneerDDJSX2.init = function(id) {
 		cueLoopColors: [0x30, 0x35, 0x3a, 0x01, 0x05, 0x0a, 0x10, 0x15, 0x1a, 0x24, 0x27, 0x2a],
 		safeScratchTimeout: 20, // 20ms is the minimum allowed here.
 		CenterLightBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
-		DoNotTrickController: 1 // Do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
+		DoNotTrickController: 0 // Do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
 	};
 
 	PioneerDDJSX2.enumerations = {
