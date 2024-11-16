@@ -1,10 +1,12 @@
 // Pioneer DDJ-SX2 mapping for Mixxx
-// based on hrudham's mapping for the DDJ-SR
-// modifications by tildearrow
-// thanks to:
-// hrudham for making the DDJ-SR mapping
-// pioneer for making such an awesome controller
-// license: (MIT)
+// Based on hrudham's mapping for the DDJ-SR
+// Modifications by tildearrow and Krafting
+//
+// Thanks to:
+// 		hrudham for making the DDJ-SR mapping
+// 		pioneer for making such an awesome controller
+//
+// License: (MIT)
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -117,14 +119,14 @@ PioneerDDJSX2.padColors = new ColorMapper({
 
 // VARIABLES BEGIN //
 
-// general variables
+// General variables
 PioneerDDJSX2.lightsTimer = 0;
 PioneerDDJSX2.shift = 0;
 PioneerDDJSX2.blinkState = 0;
 PioneerDDJSX2.curPanel = 0;
 PioneerDDJSX2.curView = 0;
 
-// deck variables
+// Deck variables
 PioneerDDJSX2.reverse = [0, 0, 0, 0];
 PioneerDDJSX2.vinylOn = [1, 1, 1, 1];
 PioneerDDJSX2.padMode = [0, 0, 0, 0];
@@ -132,20 +134,20 @@ PioneerDDJSX2.padMode = [0, 0, 0, 0];
 PioneerDDJSX2.tempoRange = [0, 0, 0, 0];
 PioneerDDJSX2.closestBeatToLoopIn = [0, 0, 0, 0];
 
-// jog wheel variables
+// Jog wheel variables
 PioneerDDJSX2.gridSlide = [0, 0, 0, 0];
 PioneerDDJSX2.gridAdjust = [0, 0, 0, 0];
 PioneerDDJSX2.TurnTablePos = [0, 0, 0, 0];
 PioneerDDJSX2.FinalTurnPos = [-1, -1, -1, -1];
 
-// roll variables
+// Roll variables
 PioneerDDJSX2.rollPrec = [2, 2, 2, 2];
 
-// slicer variables
+// Slicer variables
 PioneerDDJSX2.beat = [0, 0, 0, 0];
 PioneerDDJSX2.beatjumpPrec = [2, 2, 2, 2];
 
-// sampler variables
+// Sampler variables
 PioneerDDJSX2.samplerVolume = 1.0;
 PioneerDDJSX2.sampleVolume = [
 	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
@@ -159,7 +161,7 @@ PioneerDDJSX2.sampleVolume = [
 ];
 PioneerDDJSX2.samplerBank = [0, 0, 0, 0];
 
-// cue loop variables
+// Cue loop variables
 PioneerDDJSX2.HCLOn = [0, 0, 0, 0];
 PioneerDDJSX2.HCLNum = [0, 0, 0, 0];
 
@@ -238,7 +240,7 @@ PioneerDDJSX2.init = function(id) {
 		beatjumpColors: [0x3c, 0x3a, 0x38, 0x36, 0x34, 0x32, 0x30, 0x2e, 0x2c, 0x2a, 0x28],
 		cueLoopColors: [0x30, 0x35, 0x3a, 0x01, 0x05, 0x0a, 0x10, 0x15, 0x1a, 0x24, 0x27, 0x2a],
 		safeScratchTimeout: 20, // 20ms is the minimum allowed here.
-		CenterLightBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
+		CenterLightBehavior: 0, // 0 for rotations, 1 for beats, -1 to disable
 		DoNotTrickController: 1 // do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
 	};
 

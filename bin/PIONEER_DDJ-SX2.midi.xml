@@ -2,7 +2,7 @@
 <MixxxControllerPreset schemaVersion="1" mixxxVersion="2.3.0+">
     <info>
         <name>Pioneer DDJ-SX2</name>
-        <author>hrudham, tildearrow</author>
+        <author>hrudham, tildearrow, krafting</author>
         <description>Pioneer DDJ-SX2 mapping for Mixxx</description>
     </info>
     <controller id="PIONEER">
