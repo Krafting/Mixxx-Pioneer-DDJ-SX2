@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<MixxxControllerPreset schemaVersion="1" mixxxVersion="2.3.0+">
+<MixxxControllerPreset schemaVersion="1" mixxxVersion="2.4.0+">
     <info>
         <name>Pioneer DDJ-SX2</name>
-        <author>hrudham, tildearrow, krafting</author>
+        <author>hrudham, tildearrow, Krafting</author>
         <description>Pioneer DDJ-SX2 mapping for Mixxx</description>
     </info>
     <controller id="PIONEER">
@@ -533,8 +533,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel1]</group>
-                <key>filterHigh</key>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>parameter3</key>
                 <status>0xB0</status>
                 <midino>0x07</midino>
                 <options>
@@ -542,8 +542,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>filterHigh</key>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>parameter3</key>
                 <status>0xB1</status>
                 <midino>0x07</midino>
                 <options>
@@ -551,8 +551,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel3]</group>
-                <key>filterHigh</key>
+                <group>[EqualizerRack1_[Channel3]_Effect1]</group>
+                <key>parameter3</key>
                 <status>0xB2</status>
                 <midino>0x07</midino>
                 <options>
@@ -560,8 +560,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel4]</group>
-                <key>filterHigh</key>
+                <group>[EqualizerRack1_[Channel4]_Effect1]</group>
+                <key>parameter3</key>
                 <status>0xB3</status>
                 <midino>0x07</midino>
                 <options>
@@ -785,8 +785,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel1]</group>
-                <key>filterMid</key>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>parameter2</key>
                 <status>0xB0</status>
                 <midino>0x0B</midino>
                 <options>
@@ -794,8 +794,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>filterMid</key>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>parameter2</key>
                 <status>0xB1</status>
                 <midino>0x0B</midino>
                 <options>
@@ -803,8 +803,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel3]</group>
-                <key>filterMid</key>
+                <group>[EqualizerRack1_[Channel3]_Effect1]</group>
+                <key>parameter2</key>
                 <status>0xB2</status>
                 <midino>0x0B</midino>
                 <options>
@@ -812,8 +812,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel4]</group>
-                <key>filterMid</key>
+                <group>[EqualizerRack1_[Channel4]_Effect1]</group>
+                <key>parameter2</key>
                 <status>0xB3</status>
                 <midino>0x0B</midino>
                 <options>
@@ -1001,8 +1001,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel1]</group>
-                <key>filterLow</key>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>parameter1</key>
                 <status>0xB0</status>
                 <midino>0x0F</midino>
                 <options>
@@ -1010,8 +1010,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>filterLow</key>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>parameter1</key>
                 <status>0xB1</status>
                 <midino>0x0F</midino>
                 <options>
@@ -1019,8 +1019,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel3]</group>
-                <key>filterLow</key>
+                <group>[EqualizerRack1_[Channel3]_Effect1]</group>
+                <key>parameter1</key>
                 <status>0xB2</status>
                 <midino>0x0F</midino>
                 <options>
@@ -1028,8 +1028,8 @@
                 </options>
             </control>
             <control>
-                <group>[Channel4]</group>
-                <key>filterLow</key>
+                <group>[EqualizerRack1_[Channel4]_Effect1]</group>
+                <key>parameter1</key>
                 <status>0xB3</status>
                 <midino>0x0F</midino>
                 <options>
