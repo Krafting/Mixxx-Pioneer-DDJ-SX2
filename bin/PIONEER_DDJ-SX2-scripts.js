@@ -125,6 +125,7 @@ PioneerDDJSX2.shift = 0;
 PioneerDDJSX2.blinkState = 0;
 PioneerDDJSX2.curPanel = 0;
 PioneerDDJSX2.curView = 0;
+PioneerDDJSX2.isBraking = 0;
 
 // Deck variables
 PioneerDDJSX2.reverse = [0, 0, 0, 0];
@@ -161,11 +162,12 @@ PioneerDDJSX2.sampleVolume = [
 ];
 PioneerDDJSX2.samplerBank = [0, 0, 0, 0];
 
-// Cue loop variables
+// Cue loop variables (HotCueLoop)
 PioneerDDJSX2.HCLOn = [0, 0, 0, 0];
 PioneerDDJSX2.HCLNum = [0, 0, 0, 0];
 
 // Effect configurator variables
+// Not Used
 PioneerDDJSX2.linkType = [
 	[
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -194,11 +196,13 @@ PioneerDDJSX2.doTimer = function() {
 		midi.sendSysexMsg(PioneerDDJSX2.keepAlive, PioneerDDJSX2.keepAlive.length);
 	}
 	for (var i = 0; i < 4; i++) {
+		// Blink LED when slip is enabled
 		if (engine.getValue("[Channel" + (i + 1) + "]", "slip_enabled")) {
 			midi.sendShortMsg(0x90 + i, 0x40, PioneerDDJSX2.blinkState ? 0x7F : 0x00);
 		} else {
 			midi.sendShortMsg(0x90 + i, 0x40, 0x00);
 		}
+		// Blink LED when reversing
 		if (PioneerDDJSX2.reverse[i]) {
 			midi.sendShortMsg(0x90 + i, 0x38, PioneerDDJSX2.blinkState ? 0x7f : 0x00);
 			midi.sendShortMsg(0x90 + i, 0x15, PioneerDDJSX2.blinkState ? 0x7f : 0x00);
@@ -206,11 +210,13 @@ PioneerDDJSX2.doTimer = function() {
 			midi.sendShortMsg(0x90 + i, 0x38, 0x00);
 			midi.sendShortMsg(0x90 + i, 0x15, 0x00);
 		}
+		// Blink when HotCueLoop is active
 		if (PioneerDDJSX2.HCLOn[i]) {
 			midi.sendShortMsg(0x97 + i, 0x40 + PioneerDDJSX2.HCLNum[i], (PioneerDDJSX2.blinkState) ? PioneerDDJSX2.settings.cueLoopColors[3] : 0x00);
 			midi.sendShortMsg(0x97 + i, 0x48 + PioneerDDJSX2.HCLNum[i], (PioneerDDJSX2.blinkState) ? PioneerDDJSX2.settings.cueLoopColors[3] : 0x00);
 		}
 	}
+	// Change BlinkState
 	if (PioneerDDJSX2.blinkState == 0) {
 		PioneerDDJSX2.blinkState = 1;
 	} else {
@@ -240,8 +246,10 @@ PioneerDDJSX2.init = function(id) {
 		beatjumpColors: [0x3c, 0x3a, 0x38, 0x36, 0x34, 0x32, 0x30, 0x2e, 0x2c, 0x2a, 0x28],
 		cueLoopColors: [0x30, 0x35, 0x3a, 0x01, 0x05, 0x0a, 0x10, 0x15, 0x1a, 0x24, 0x27, 0x2a],
 		safeScratchTimeout: 20, // 20ms is the minimum allowed here.
-		CenterLightBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
-		DoNotTrickController: 0 // Do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
+		CenterRedLightsBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
+		DoNotTrickController: 0, // Do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
+		SoftStartTime: -1, // Time for the softstart function (when hitting play) (Higher is faster) (disable with -1) (10-15 is a good default)
+		BrakeTime: -1 // Time for the brake function (when hitting pause) (Higher is faster) (disable with -1) (10-15 is a good default)
 	};
 
 	PioneerDDJSX2.enumerations = {
@@ -350,8 +358,8 @@ PioneerDDJSX2.init = function(id) {
 			target: PioneerDDJSX2.enumerations.rotarySelector.targets.tracklist
 		}
 	};
-	// disable all lights,i guess
-	//midi.sendShortMsg(0xbb,0x09,0x7f);
+	// Disable all lights, I guess
+	// midi.sendShortMsg(0xbb,0x09,0x7f);
 	midi.sendShortMsg(0x90, 0x0b, 0x10); // decoration thing
 	midi.sendShortMsg(0x91, 0x0b, 0x10); // decoration thing
 	midi.sendShortMsg(0x92, 0x0b, 0x10); // decoration thing
@@ -361,12 +369,12 @@ PioneerDDJSX2.init = function(id) {
 	midi.sendShortMsg(0x92, 0x1b, 0x7f);
 	midi.sendShortMsg(0x93, 0x1b, 0x7f);
 	PioneerDDJSX2.BindControlConnections();
-	// increase resonance of filter
+	// Increase resonance of filter
 	engine.setValue("[QuickEffectRack1_[Channel1]_Effect1]", "parameter2", 4);
 	engine.setValue("[QuickEffectRack1_[Channel2]_Effect1]", "parameter2", 4);
 	engine.setValue("[QuickEffectRack1_[Channel3]_Effect1]", "parameter2", 4);
 	engine.setValue("[QuickEffectRack1_[Channel4]_Effect1]", "parameter2", 4);
-	// disable deck lights
+	// Disable deck lights
 	midi.sendShortMsg(0xbb, 0, 0);
 	midi.sendShortMsg(0xbb, 1, 0);
 	midi.sendShortMsg(0xbb, 2, 0);
@@ -386,7 +394,7 @@ PioneerDDJSX2.init = function(id) {
 		PioneerDDJSX2.RepaintSampler(i);
 	}
 
-	PioneerDDJSX2.CCCLeds();
+	PioneerDDJSX2.FXLeds();
 
 	for (var i = 1; i <= 4; i++) {
 		for (var j = 1; j <= 8; j++) {
@@ -449,8 +457,8 @@ PioneerDDJSX2.BindControlConnections = function() {
 
 	// Effect Selector Status LEDs
 	for (var i = 1; i <= 3; i++) {
-		PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit1_Effect' + i + ']', 'enabled', PioneerDDJSX2.CCCLeds));
-		PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit2_Effect' + i + ']', 'enabled', PioneerDDJSX2.CCCLeds));
+		PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit1_Effect' + i + ']', 'enabled', PioneerDDJSX2.FXLeds));
+		PioneerDDJSX2.conns.push(engine.makeConnection('[EffectRack1_EffectUnit2_Effect' + i + ']', 'enabled', PioneerDDJSX2.FXLeds));
 	}
 
 	// Pitch
@@ -486,14 +494,14 @@ PioneerDDJSX2.RateThing = function(value, group, control) {
 	var channel = PioneerDDJSX2.enumerations.channelGroups[group];
 	if (engine.getValue(group, 'rate') > 0) {
 		midi.sendShortMsg(0x90 + channel, 0x34, 0x7F); // ok
-		midi.sendShortMsg(0x90 + channel, 0x37, 0x00); // Thing
+		midi.sendShortMsg(0x90 + channel, 0x37, 0x00);
 	} else {
 		if (engine.getValue(group, 'rate') == 0) {
-			midi.sendShortMsg(0x90 + channel, 0x37, 0x00); // Thing
-			midi.sendShortMsg(0x90 + channel, 0x34, 0x00); // Thing
+			midi.sendShortMsg(0x90 + channel, 0x37, 0x00);
+			midi.sendShortMsg(0x90 + channel, 0x34, 0x00);
 		} else {
-			midi.sendShortMsg(0x90 + channel, 0x37, 0x7F); // Thing
-			midi.sendShortMsg(0x90 + channel, 0x34, 0x00); // Thing 
+			midi.sendShortMsg(0x90 + channel, 0x37, 0x7F);
+			midi.sendShortMsg(0x90 + channel, 0x34, 0x00); 
 		}
 	}
 };
@@ -565,15 +573,55 @@ PioneerDDJSX2.BeatActive = function(value, group, control) {
 	var channel = PioneerDDJSX2.enumerations.channelGroups[group];
 	var howmuchshallwejump = 1;
 
-	console.info(1 + (PioneerDDJSX2.beat[channel] % 8))
+	// console.info(1 + (PioneerDDJSX2.beat[channel] % 8))
 
 	// slicer lights
 	PioneerDDJSX2.beat[channel] = Math.round(value / engine.getValue(group, "track_samplerate") * (engine.getValue(group, "file_bpm") / 120.0)) - 1;
-	console.info(PioneerDDJSX2.beat[channel])
-	if (PioneerDDJSX2.settings.CenterLightBehavior == 1) {
+	// console.info(PioneerDDJSX2.beat[channel])
+	if (PioneerDDJSX2.settings.CenterRedLightsBehavior == 1) {
 		midi.sendShortMsg(0xBB, 0x04 + channel, 1 + (PioneerDDJSX2.beat[channel] % 8));
 	}
+
 	// midi.sendShortMsg(0x90,0x24,0x7f);
+
+	// Slicer lights, if we are in slicer mode
+	if (PioneerDDJSX2.padMode[channel] == 2) {
+	    midi.sendShortMsg(0x97 + channel, 0x20, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 0) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x21, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 1) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x22, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 2) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x23, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 3) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x24, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 4) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x25, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 5) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x26, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 6) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x27, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 7) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x28, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 0) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x29, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 1) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x2a, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 2) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x2b, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 3) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x2c, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 4) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x2d, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 5) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x2e, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 6) ? 0x01 : 0x28);
+	    midi.sendShortMsg(0x97 + channel, 0x2f, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 7) ? 0x01 : 0x28);
+	}
+	// Slicer loop lights
+	if (PioneerDDJSX2.padMode[channel] == 6) {
+	    midi.sendShortMsg(0x97 + channel, 0x60, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 0) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x61, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 1) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x62, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 2) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x63, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 3) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x64, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 4) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x65, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 5) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x66, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 6) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x67, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 7) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x68, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 0) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x69, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 1) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x6a, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 2) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x6b, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 3) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x6c, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 4) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x6d, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 5) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x6e, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 6) ? 0x28 : 0x01);
+	    midi.sendShortMsg(0x97 + channel, 0x6f, ((Math.floor(PioneerDDJSX2.beat[channel] % 8)) == 7) ? 0x28 : 0x01);
+	}
 };
 
 // This handles LEDs related to the PFL/Headphone Cue event.
@@ -588,7 +636,7 @@ PioneerDDJSX2.deckLights = function(value, group, control) {
 		PioneerDDJSX2.FinalTurnPos[channel] = finalPos;
 		midi.sendShortMsg(0xbb, channel, finalPos); // Headphone Cue LED
 		// Red LEDs in the center
-		if (PioneerDDJSX2.settings.CenterLightBehavior == 0) {
+		if (PioneerDDJSX2.settings.CenterRedLightsBehavior == 0) {
 			midi.sendShortMsg(0xbb, 0x04 + channel, (1 + Math.floor((engine.getValue(group, "playposition") * (engine.getValue(group, "track_samples") / engine.getValue(group, "track_samplerate")) / 2) * 39.96) / 0x48) % 8);
 		}
 	}
@@ -624,8 +672,7 @@ PioneerDDJSX2.FourBeat = function(group, control, value, status) {
 		engine.setValue(channel, "loop_end_position", PioneerDDJSX2.closestBeatToLoopIn[group] + engine.getValue(channel, 'track_samplerate') * (480 / engine.getValue(channel, 'file_bpm')));
 
 		if (!loop_enable) {
-			engine.setValue(channel, "reloop_exit", 1);
-			engine.setValue(channel, "reloop_exit", 0);
+			engine.setValue(channel, "reloop_toggle", 1);
 		}
 	}
 }
@@ -713,35 +760,35 @@ PioneerDDJSX2.PitchAdjust = function(value, group, control) {
 
 // FX Channel (1 or 2) selector LEDs for each channel
 PioneerDDJSX2.FX1CH1 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x4C, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x4C, value ? 0x7F : 0x00);
 };
 
 PioneerDDJSX2.FX2CH1 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x50, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x50, value ? 0x7F : 0x00);
 };
 
 PioneerDDJSX2.FX1CH2 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x4D, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x4D, value ? 0x7F : 0x00);
 };
 
 PioneerDDJSX2.FX2CH2 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x51, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x51, value ? 0x7F : 0x00);
 };
 
 PioneerDDJSX2.FX1CH3 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x4E, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x4E, value ? 0x7F : 0x00);
 };
 
 PioneerDDJSX2.FX2CH3 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x52, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x52, value ? 0x7F : 0x00);
 };
 
 PioneerDDJSX2.FX1CH4 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x4F, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x4F, value ? 0x7F : 0x00);
 };
 
 PioneerDDJSX2.FX2CH4 = function(value, group, control) {
-	midi.sendShortMsg(0x96, 0x53, value ? 0x7F : 0x00); // Thing
+	midi.sendShortMsg(0x96, 0x53, value ? 0x7F : 0x00);
 };
 
 // Cue Leds
@@ -762,6 +809,7 @@ PioneerDDJSX2.Shift = function(value, group, control) {
 	PioneerDDJSX2.shift = control;
 };
 
+// Reverse Play
 PioneerDDJSX2.Reverse = function(value, group, control) {
 	if (control == 127) {
 		PioneerDDJSX2.reverse[value] = !PioneerDDJSX2.reverse[value];
@@ -769,10 +817,24 @@ PioneerDDJSX2.Reverse = function(value, group, control) {
 	}
 };
 
+// Reverse Play when keeping the button pressed
+// Also, if we have reverse play enabled, clicking on the button without shift will cancel the reverse and back to normal
+PioneerDDJSX2.ReverseHold = function(value, group, control) {
+	// Reverse when pushing the button, otherwise play normally
+	if (control == 127) {
+		PioneerDDJSX2.reverse[value] = 1;
+		engine.setValue("[Channel" + (value + 1) + "]", "reverse", PioneerDDJSX2.reverse[value]);
+	} else {
+		PioneerDDJSX2.reverse[value] = 0;
+		engine.setValue("[Channel" + (value + 1) + "]", "reverse", PioneerDDJSX2.reverse[value]);
+	}
+};
+
+// Enable AutoLoop
 PioneerDDJSX2.AutoLoop = function(channel, control, value, status) {
 	if (value == 127) {
 		if (engine.getValue("[Channel" + (channel + 1) + "]", "loop_enabled")) {
-			engine.setValue("[Channel" + (channel + 1) + "]", "reloop_exit", 1);
+			engine.setValue("[Channel" + (channel + 1) + "]", "reloop_toggle", 1);
 			for (var i = 0; i < 4; i++) {
 				PioneerDDJSX2.HCLOn[i] = 0;
 			}
@@ -782,91 +844,23 @@ PioneerDDJSX2.AutoLoop = function(channel, control, value, status) {
 	}
 };
 
-PioneerDDJSX2.CCC = function(value, group, control) {
-	//var channel = PioneerDDJSX2.enumerations.channelGroups[group];
-	if (control == 127) {
-		/*
-		PioneerDDJSX2.currenteffect[value-4]++;
-		if (PioneerDDJSX2.currenteffect[value-4] > 3) {
-			PioneerDDJSX2.currenteffect[value-4]=0;
-		}
-		print(value);
-		PioneerDDJSX2.CCCLeds();
-		*/
-	}
-};
-
-// Function that control the Effect LEDs status
-// TODO: It doesn't update when activating an effect via Mixxx's UI 
-PioneerDDJSX2.CCCLeds = function() {
+// Function that control the Effect LEDs status of current enabled effects
+PioneerDDJSX2.FXLeds = function() {
 	// Change indicator
 	for (var i = 0; i < 2; i++) {
 		for (var j = 0; j < 3; j++) {
 			midi.sendShortMsg(0x94 + i, 0x47 + j, engine.getValue("[EffectRack1_EffectUnit" + (i + 1) + "_Effect" + (j + 1) + "]", "enabled") ? 0x7F : 0x00);
 		}
-		midi.sendShortMsg(0x94 + i, 0x4a, engine.getValue("[EffectRack1_EffectUnit" + (i + 1) + "]", "mix_mode") ? 0x7F : 0x00)
+		midi.sendShortMsg(0x94 + i, 0x4a, engine.getValue("[EffectRack1_EffectUnit" + (i + 1) + "]", "mix_mode") ? 0x7F : 0x00);
 	}
-	/*
-	midi.sendShortMsg(0x94,0x47,(PioneerDDJSX2.currenteffect[0]==0)?0x7F:0x00);
-	midi.sendShortMsg(0x94,0x48,(PioneerDDJSX2.currenteffect[0]==1)?0x7F:0x00);
-	midi.sendShortMsg(0x94,0x49,(PioneerDDJSX2.currenteffect[0]==2)?0x7F:0x00);
-	midi.sendShortMsg(0x94,0x4a,(PioneerDDJSX2.currenteffect[0]==3)?0x7F:0x00);*/
-	// console.info(PioneerDDJSX2.currenteffect[0])
-	// if (PioneerDDJSX2.currenteffect[0] < 3) {
-		// midi.sendShortMsg(0x94,0x63,(PioneerDDJSX2.currenteffectparamset[PioneerDDJSX2.currenteffect[0]]==0)?0x7F:0x00);
-		// midi.sendShortMsg(0x94,0x64,(PioneerDDJSX2.currenteffectparamset[PioneerDDJSX2.currenteffect[0]]==1)?0x7F:0x00);
-		// midi.sendShortMsg(0x94,0x65,(PioneerDDJSX2.currenteffectparamset[PioneerDDJSX2.currenteffect[0]]==2)?0x7F:0x00);
-		// midi.sendShortMsg(0x94,0x66,(PioneerDDJSX2.currenteffectparamset[PioneerDDJSX2.currenteffect[0]]==3)?0x7F:0x00);
-	// } else {
-	// 	midi.sendShortMsg(0x94,0x63,0x7F);
-	// 	midi.sendShortMsg(0x94,0x64,0x7F);
-	// 	midi.sendShortMsg(0x94,0x65,0x7F);
-	// 	midi.sendShortMsg(0x94,0x66,0x7F);
-	// }
-	/*
-	midi.sendShortMsg(0x95,0x47,(PioneerDDJSX2.currenteffect[1]==0)?0x7F:0x00);
-	midi.sendShortMsg(0x95,0x48,(PioneerDDJSX2.currenteffect[1]==1)?0x7F:0x00);
-	midi.sendShortMsg(0x95,0x49,(PioneerDDJSX2.currenteffect[1]==2)?0x7F:0x00);
-	midi.sendShortMsg(0x95,0x4a,(PioneerDDJSX2.currenteffect[1]==3)?0x7F:0x00);
-	if (PioneerDDJSX2.currenteffect[1]<3) {
-		midi.sendShortMsg(0x95,0x63,(PioneerDDJSX2.currenteffectparamset[4+PioneerDDJSX2.currenteffect[1]]==0)?0x7F:0x00);
-		midi.sendShortMsg(0x95,0x64,(PioneerDDJSX2.currenteffectparamset[4+PioneerDDJSX2.currenteffect[1]]==1)?0x7F:0x00);
-		midi.sendShortMsg(0x95,0x65,(PioneerDDJSX2.currenteffectparamset[4+PioneerDDJSX2.currenteffect[1]]==2)?0x7F:0x00);
-		midi.sendShortMsg(0x95,0x66,(PioneerDDJSX2.currenteffectparamset[4+PioneerDDJSX2.currenteffect[1]]==3)?0x7F:0x00);
-	} else {
-		midi.sendShortMsg(0x95,0x63,0x7F);
-		midi.sendShortMsg(0x95,0x64,0x7F);
-		midi.sendShortMsg(0x95,0x65,0x7F);
-		midi.sendShortMsg(0x95,0x66,0x7F);
-	}
-	if (PioneerDDJSX2.linkTypeTimer!=0) {
-		engine.stopTimer(PioneerDDJSX2.linkTypeTimer);
-		PioneerDDJSX2.linkTypeTimer=0;
-	}*/
+
 };
 
-PioneerDDJSX2.CPS = function(value, group, control) {
-	//var channel = PioneerDDJSX2.enumerations.channelGroups[group];
-	if (control == 127) {
-		/*
-		PioneerDDJSX2.currenteffectparamset[((value==5)?(4):(0))+PioneerDDJSX2.currenteffect[value-4]]++;
-		if (PioneerDDJSX2.currenteffectparamset[((value==5)?(4):(0))+PioneerDDJSX2.currenteffect[value-4]] > =(engine.getValue("[EffectRack1_EffectUnit"+(value-3)+"_Effect"+(PioneerDDJSX2.currenteffect[value-4]+1)+"]","num_parameters")/3)) {
-			PioneerDDJSX2.currenteffectparamset[((value==5)?(4):(0))+PioneerDDJSX2.currenteffect[value-4]]=0;
-		}
-		print(PioneerDDJSX2.currenteffectparamset[PioneerDDJSX2.currenteffect[0]]);
-		// change indicator
-		PioneerDDJSX2.CCCLeds();
-		*/
-	}
-};
-
-// This handles selecting effects.
-PioneerDDJSX2.EffectSelect = function(value, group, control) {
-	engine.setValue("[EffectRack1_EffectUnit" + (value - 3) + "_Effect" + (group - 98) + "]", "effect_selector", (control == 127) ? 1 : 0);
-};
-
+// Handle Beats Knob (turning)
 // TODO: lotsa' stuff regarding the new effect system.
 PioneerDDJSX2.EffectJog = function(value, group, control) {
+	// control = 127 : counter-clockwise
+	// control = 1 : clockwise
 	if (control > 63) {
 		engine.setValue("[EffectRack1_EffectUnit" + (value - 3) + "]", "mix",
 			engine.getValue("[EffectRack1_EffectUnit" + (value - 3) + "]", "mix") - 0.0625 * (128 - control)
@@ -878,7 +872,43 @@ PioneerDDJSX2.EffectJog = function(value, group, control) {
 	}
 };
 
+// Beats Press (FX)
+// Do Nothing for now, if we get an idea maybe later
+PioneerDDJSX2.BeatsPressFX = function(value, group, control) {
+	//var channel = PioneerDDJSX2.enumerations.channelGroups[group];
+	if (control == 127) {
+		PioneerDDJSX2.currenteffect[value-4]++;
+		if (PioneerDDJSX2.currenteffect[value-4] > 3) {
+			PioneerDDJSX2.currenteffect[value-4] = 0;
+		}
+		PioneerDDJSX2.FXLeds();
+	}
+};
+
+// Shift + Beats Press (FX)
+// Do Nothing for now, if we get an idea maybe later
+PioneerDDJSX2.ShiftBeatsPressFX = function(value, group, control) {
+	//var channel = PioneerDDJSX2.enumerations.channelGroups[group];
+	if (control == 127) {
+		PioneerDDJSX2.currenteffectparamset[((value==5)?(4):(0))+PioneerDDJSX2.currenteffect[value-4]]++;
+		if (PioneerDDJSX2.currenteffectparamset[((value==5)?(4):(0))+PioneerDDJSX2.currenteffect[value-4]] >= (engine.getValue("[EffectRack1_EffectUnit"+(value-3)+"_Effect"+(PioneerDDJSX2.currenteffect[value-4]+1)+"]","num_parameters")/3)) {
+			PioneerDDJSX2.currenteffectparamset[((value==5)?(4):(0))+PioneerDDJSX2.currenteffect[value-4]]=0;
+		}
+		console.info(PioneerDDJSX2.currenteffectparamset[PioneerDDJSX2.currenteffect[0]]);
+		// change indicator
+		PioneerDDJSX2.FXLeds();
+	}
+};
+
+// This handles selecting effects. (FX Select)
+PioneerDDJSX2.EffectSelect = function(value, group, control) {
+	engine.setValue("[EffectRack1_EffectUnit" + (value - 3) + "_Effect" + (group - 98) + "]", "effect_selector", (control == 127) ? 1 : 0);
+};
+
+
+// Control the Effect Knobs
 PioneerDDJSX2.EffectKnob = function(value, group, control) {
+	console.info(value)
 	if (PioneerDDJSX2.currenteffect[value - 4] == 3) {
 		switch (group) {
 			case 2:
@@ -892,7 +922,7 @@ PioneerDDJSX2.EffectKnob = function(value, group, control) {
 				break;
 		}
 	} else {
-		/*
+		
 		switch (group) {
 			case 2:
 				engine.setParameter("[EffectRack1_EffectUnit"+(value-3)+"_Effect"+(PioneerDDJSX2.currenteffect[value-4]+1)+"]","parameter"+(1+(PioneerDDJSX2.currenteffectparamset[((value-4)*4)+PioneerDDJSX2.currenteffect[value-4]]*3)),control/127);
@@ -904,27 +934,33 @@ PioneerDDJSX2.EffectKnob = function(value, group, control) {
 				engine.setParameter("[EffectRack1_EffectUnit"+(value-3)+"_Effect"+(PioneerDDJSX2.currenteffect[value-4]+1)+"]","parameter"+(3+(PioneerDDJSX2.currenteffectparamset[((value-4)*4)+PioneerDDJSX2.currenteffect[value-4]]*3)),control/127);
 				break;
 		}
-		*/
+		
 	}
 };
 
 PioneerDDJSX2.EffectButton = function(value, group, control) {
+	// value: 4 for FX1 and 5 for FX2
+	console.info(PioneerDDJSX2.currenteffect[value - 4])
 	if (control == 127) {
+
+		// If we are in the mode 3 in PioneerDDJSX2.currenteffect
 		if (PioneerDDJSX2.currenteffect[value - 4] == 3) {
 			engine.setValue("[EffectRack1_EffectUnit" + (value - 3) + "_Effect" + (group - 70) + "]", "enabled", !engine.getValue("[EffectRack1_EffectUnit" + (value - 3) + "_Effect" + (group - 70) + "]", "enabled"));
 		} else {
-			/*
-			if (((PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-71)<engine.getValue("[EffectRack1_EffectUnit"+(value-3)+"_Effect"+(PioneerDDJSX2.currenteffect[value-4]+1)+"]","num_parameters")) {
-				PioneerDDJSX2.linkType[value-4][PioneerDDJSX2.currenteffect[value-4]][(PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-71]++; if (PioneerDDJSX2.linkType[value-4][PioneerDDJSX2.currenteffect[value-4]][(PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-71] > 4) {PioneerDDJSX2.linkType[value-4][PioneerDDJSX2.currenteffect[value-4]][(PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-71]=0;}
-				engine.setValue("[EffectRack1_EffectUnit"+(value-3)+"_Effect"+(PioneerDDJSX2.currenteffect[value-4]+1)+"]","parameter"+((PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-70)+"_link_type",PioneerDDJSX2.linkType[value-4][PioneerDDJSX2.currenteffect[value-4]][(PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-71]);
-				PioneerDDJSX2.LinkTypeLeds(value-4,PioneerDDJSX2.currenteffect[value-4],(PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-71);
-				print(PioneerDDJSX2.linkType[value-4][PioneerDDJSX2.currenteffect[value-4]][(PioneerDDJSX2.currenteffectparamset[(4*(value-4))+PioneerDDJSX2.currenteffect[value-4]]*3)+group-71]);
-			} else {
-				print("ok");   
-			}
-			*/
+			// console.info(((PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71))
+			// if (((PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71) < engine.getValue("[EffectRack1_EffectUnit" + (value - 3) + "_Effect" + (PioneerDDJSX2.currenteffect[value - 4] + 1) + "]", "num_parameters")) {
+			// 	PioneerDDJSX2.linkType[value - 4][PioneerDDJSX2.currenteffect[value - 4]][(PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71]++;
+			// 	if (PioneerDDJSX2.linkType[value - 4][PioneerDDJSX2.currenteffect[value - 4]][(PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71] > 4) {
+			// 		PioneerDDJSX2.linkType[value - 4][PioneerDDJSX2.currenteffect[value - 4]][(PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71] = 0;
+			// 	}
+			// 	engine.setValue("[EffectRack1_EffectUnit" + (value - 3) + "_Effect" + (PioneerDDJSX2.currenteffect[value - 4] + 1) + "]", "parameter" + ((PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 70) + "_link_type", PioneerDDJSX2.linkType[value - 4][PioneerDDJSX2.currenteffect[value - 4]][(PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71]);
+			// 	PioneerDDJSX2.LinkTypeLeds(value - 4, PioneerDDJSX2.currenteffect[value - 4], (PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71);
+			// 	console.info(PioneerDDJSX2.linkType[value - 4][PioneerDDJSX2.currenteffect[value - 4]][(PioneerDDJSX2.currenteffectparamset[(4 * (value - 4)) + PioneerDDJSX2.currenteffect[value - 4]] * 3) + group - 71]);
+			// } else {
+			// 	console.info("ok");
+			// }
 		}
-		PioneerDDJSX2.CCCLeds();
+		// PioneerDDJSX2.FXLeds();
 	}
 };
 
@@ -961,35 +997,44 @@ PioneerDDJSX2.LinkTypeLeds = function(effectset, effect, param) {
 			midi.sendShortMsg(0x94 + effectset, 0x4a, 0x7f);
 			break;
 	}
+	// Stop previous timer before launching a new one
 	if (PioneerDDJSX2.linkTypeTimer != 0) {
 		engine.stopTimer(PioneerDDJSX2.linkTypeTimer);
 	}
-	PioneerDDJSX2.linkTypeTimer = engine.beginTimer(2000, "PioneerDDJSX2.CCCLeds", 1);
+	PioneerDDJSX2.linkTypeTimer = engine.beginTimer(2000, PioneerDDJSX2.FXLeds, 1);
 };
 
+// Panel Select, Show or don't show Effect Rack and Samplers
 PioneerDDJSX2.PanelSelect = function(value, group, control) {
-	//var channel = PioneerDDJSX2.enumerations.channelGroups[group];
 	if (control == 127) {
 		PioneerDDJSX2.curPanel += ((1 - (group - 120)) * 2) - 1;
+
+		// If we have a negative number, fallback to the mode 3
 		if (PioneerDDJSX2.curPanel < 0) {
-			PioneerDDJSX2.curPanel = 2;
+			PioneerDDJSX2.curPanel = 3;
 		}
-		if (PioneerDDJSX2.curPanel > 2) {
+
+		// Reset counter after 4 presses (> 3)
+		if (PioneerDDJSX2.curPanel > 3) {
 			PioneerDDJSX2.curPanel = 0;
 		}
-		print(PioneerDDJSX2.curPanel);
+		console.info(PioneerDDJSX2.curPanel);
 		switch (PioneerDDJSX2.curPanel) {
 			case 0:
-				engine.setValue("[Samplers]", "show_samplers", 0);
-				engine.setValue("[EffectRack1]", "show", 0);
+				engine.setValue("[Skin]", "show_samplers", 0);
+				engine.setValue("[Skin]", "show_effectrack", 0);
 				break;
 			case 1:
-				engine.setValue("[Samplers]", "show_samplers", 1);
-				engine.setValue("[EffectRack1]", "show", 0);
+				engine.setValue("[Skin]", "show_samplers", 1);
+				engine.setValue("[Skin]", "show_effectrack", 0);
 				break;
 			case 2:
-				engine.setValue("[Samplers]", "show_samplers", 0);
-				engine.setValue("[EffectRack1]", "show", 1);
+				engine.setValue("[Skin]", "show_samplers", 0);
+				engine.setValue("[Skin]", "show_effectrack", 1);
+				break;
+			case 3:
+				engine.setValue("[Skin]", "show_samplers", 1);
+				engine.setValue("[Skin]", "show_effectrack", 1);
 				break;
 		}
 	}
@@ -1002,9 +1047,9 @@ PioneerDDJSX2.ViewButton = function(value, group, control) {
 			PioneerDDJSX2.curPanel = 0;
 		}
 		console.info(PioneerDDJSX2.curView);
-		engine.setValue("[Master]", "show_4decks", PioneerDDJSX2.curView & 1);
-		engine.setValue("[Deere]", "show_stacked_waveforms", PioneerDDJSX2.curView & 2);
-		engine.setValue("[Master]", "hide_mixer", PioneerDDJSX2.curView & 4);
+		engine.setValue("[Skin]", "show_4decks", PioneerDDJSX2.curView & 1);
+		// engine.setValue("[Deere]", "show_stacked_waveforms", PioneerDDJSX2.curView & 2);
+		// engine.setValue("[Master]", "hide_mixer", PioneerDDJSX2.curView & 4);
 	}
 };
 
@@ -1012,7 +1057,7 @@ PioneerDDJSX2.EffectTap = function(value, group, control) {
 	if (control == 127) {
 		if (PioneerDDJSX2.currenteffect[value - 4] == 3) {
 			engine.setValue("[EffectRack1_EffectUnit" + (value - 3) + "]", "mix_mode", !engine.getValue("[EffectRack1_EffectUnit" + (value - 3) + "]", "mix_mode"));
-			PioneerDDJSX2.CCCLeds();
+			PioneerDDJSX2.FXLeds();
 		}
 	}
 };
@@ -1062,10 +1107,28 @@ PioneerDDJSX2.SetRollMode = function(group, control, value, status) {
 
 PioneerDDJSX2.SetSlicerMode = function(group, control, value, status) {
 	if (value == 127) {
-		print("SLICER");
+		console.info("SLICER");
 		PioneerDDJSX2.padMode[group] = 2;
 		midi.sendShortMsg(0x90 + group, 0x20, 0x7f);
 		// update beat jump lights
+		PioneerDDJSX2.beat[group]=Math.round(engine.getValue("[Channel"+(group+1)+"]","beat_next")/engine.getValue("[Channel"+(group+1)+"]","track_samplerate")*(engine.getValue("[Channel"+(group+1)+"]","file_bpm")/120.0))-1;
+		console.info("beat "+engine.getValue("[Channel"+(group+1)+"]","beat_closest"));
+		midi.sendShortMsg(0x97+group,0x20,((Math.floor(PioneerDDJSX2.beat[group]%8))==0)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x21,((Math.floor(PioneerDDJSX2.beat[group]%8))==1)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x22,((Math.floor(PioneerDDJSX2.beat[group]%8))==2)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x23,((Math.floor(PioneerDDJSX2.beat[group]%8))==3)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x24,((Math.floor(PioneerDDJSX2.beat[group]%8))==4)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x25,((Math.floor(PioneerDDJSX2.beat[group]%8))==5)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x26,((Math.floor(PioneerDDJSX2.beat[group]%8))==6)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x27,((Math.floor(PioneerDDJSX2.beat[group]%8))==7)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x28,((Math.floor(PioneerDDJSX2.beat[group]%8))==0)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x29,((Math.floor(PioneerDDJSX2.beat[group]%8))==1)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x2a,((Math.floor(PioneerDDJSX2.beat[group]%8))==2)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x2b,((Math.floor(PioneerDDJSX2.beat[group]%8))==3)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x2c,((Math.floor(PioneerDDJSX2.beat[group]%8))==4)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x2d,((Math.floor(PioneerDDJSX2.beat[group]%8))==5)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x2e,((Math.floor(PioneerDDJSX2.beat[group]%8))==6)?0x01:0x28);
+		midi.sendShortMsg(0x97+group,0x2f,((Math.floor(PioneerDDJSX2.beat[group]%8))==7)?0x01:0x28);
 	}
 };
 
@@ -1178,6 +1241,7 @@ PioneerDDJSX2.SamplerLight = function(value, group, control) {
 	}
 }
 
+// Control Volume of Velocity Sampler (Pressure Sensitive Sampler)
 PioneerDDJSX2.SetSampleGain = function(group, control, value) {
 	var where = (control & 7) + (PioneerDDJSX2.samplerBank[group - 7] * 8);
 	PioneerDDJSX2.sampleVolume[where] = value / 127;
@@ -1199,15 +1263,16 @@ PioneerDDJSX2.SetTempoRange = function(group, control, value, status) {
 		if (PioneerDDJSX2.tempoRange[group] > 3) {
 			PioneerDDJSX2.tempoRange[group] = 0;
 		}
-		print("setting tr " + PioneerDDJSX2.tempoRange[group]);
+		console.info("setting tr " + PioneerDDJSX2.tempoRange[group]);
 		engine.setParameter("[Channel" + (group + 1) + "]", "rateRange", PioneerDDJSX2.settings.tempoRanges[PioneerDDJSX2.tempoRange[group]]);
 	}
 };
 
+// Vynil Mode (Shift + Slip)
 PioneerDDJSX2.ToggleVinyl = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.vinylOn[group] = !PioneerDDJSX2.vinylOn[group];
-		print("tv");
+		console.info("toggle vinyl");
 	}
 };
 
@@ -1253,7 +1318,7 @@ PioneerDDJSX2.SlicerParam1R = function(group, control, value, status) {
 
 PioneerDDJSX2.RepaintSampler = function(group) {
 	var ai;
-	print("RepaintSampler " + group);
+	console.info("RepaintSampler " + group);
 	for (var i = 0; i < 8; i++) {
 		ai = i + PioneerDDJSX2.samplerBank[group] * 8;
 		if (engine.getValue("[Sampler" + (ai + 1) + "]", "track_loaded")) {
@@ -1335,7 +1400,7 @@ PioneerDDJSX2.RollPerformancePadLed = function(value, group, control) {
 		}
 		padIndex++;
 	}
-	if (engine.getValue('[Channel1]', 'play') == true) {
+	if (engine.getValue('[Channel1]', 'play')) {
 		// Toggle the relevant Performance Pad LED
 		midi.sendShortMsg(0x97 + channel, 0x10 + padIndex, value ? 0x7F : 0x00);
 	}
@@ -1357,6 +1422,7 @@ PioneerDDJSX2.UpdateCueLoopLights = function(channel) {
 	}
 }
 
+// Handle LEDs for the HotCues
 PioneerDDJSX2.HotCuePerformancePadLedColor = function(value, group, control) {
 	var channel = PioneerDDJSX2.enumerations.channelGroups[group];
 	var i = PioneerDDJSX2.enumerations.hotcueIndexColors[control];
@@ -1429,6 +1495,40 @@ PioneerDDJSX2.vu_meter = function(value, group, control) {
 }
 
 ///////////////////////////////////////////////////////////////
+//                   PLAY BUTTON & BRAKE                     //
+///////////////////////////////////////////////////////////////
+
+// Handle the play button, this adds the ability to do braking and softstart. with corresponding settings
+PioneerDDJSX2.Play = function (channel, control, value, status, group) {
+	var deck = script.deckFromGroup(group); // work out which deck we are using
+	var isPlaying = engine.getValue(group, 'play')
+
+	// Only call when pressing, not releasing the button
+	if (value == 127) {
+		// We use the isBraking to know if we are currently braking, so allow for fast play/pause
+		// Because when braking, the track is still playing.
+		if (isPlaying && PioneerDDJSX2.isBraking == 0) {
+			PioneerDDJSX2.isBraking = 1
+
+			if (PioneerDDJSX2.settings.BrakeTime >= 0) {
+				engine.brake(deck, true, PioneerDDJSX2.settings.BrakeTime); // Enable brake effect
+			} else {
+				engine.setValue(group, 'play', 0);
+			}
+		} else {
+			PioneerDDJSX2.isBraking = 0
+
+			if (PioneerDDJSX2.settings.SoftStartTime >= 0) {
+				engine.softStart(deck, true, PioneerDDJSX2.settings.BrakeTime); // Enable soft start effect
+			} else {
+				engine.setValue(group, 'play', 1);
+			}
+		}
+		
+	}
+}
+
+///////////////////////////////////////////////////////////////
 //                          JOGWHEELS                        //
 ///////////////////////////////////////////////////////////////
 
@@ -1441,6 +1541,8 @@ PioneerDDJSX2.getJogWheelDelta = function(value) {
 // Toggle scratching for a channel
 PioneerDDJSX2.toggleScratch = function(channel, isEnabled) {
 	var deck = channel + 1;
+	PioneerDDJSX2.channels[channel].disableScratchTimer = 0;
+
 	if (isEnabled) {
 		engine.scratchEnable(deck, PioneerDDJSX2.settings.jogResolution, PioneerDDJSX2.settings.vinylSpeed, PioneerDDJSX2.settings.alpha, PioneerDDJSX2.settings.beta);
 	} else {
@@ -1463,12 +1565,12 @@ PioneerDDJSX2.pitchBend = function(channel, movement) {
 };
 
 // Schedule disabling scratch. We don't do this immediately on 
-// letting go of the jog wheel,as that result in a pitch-bend.
+// letting go of the jog wheel, as that result in a pitch-bend.
 // Instead,we set up a time that disables it,but cancel and
 // re-register that timer whenever we need to to postpone the disable.
 // Very much a hack,but it works,and I'm yet to find a better solution.
 PioneerDDJSX2.scheduleDisableScratch = function(channel) {
-	PioneerDDJSX2.channels[channel].disableScratchTimer = engine.beginTimer(PioneerDDJSX2.settings.safeScratchTimeout, 'PioneerDDJSX2.toggleScratch(' + channel + ',false)', true);
+	PioneerDDJSX2.channels[channel].disableScratchTimer = engine.beginTimer(PioneerDDJSX2.settings.safeScratchTimeout, () => { PioneerDDJSX2.toggleScratch(channel, false); }, true);
 };
 
 // If scratch-disabling has been schedule,then unschedule it.
@@ -1498,7 +1600,7 @@ PioneerDDJSX2.jogScratchTouch = function(channel, control, value, status) {
 };
 
 PioneerDDJSX2.jogSeek = function(channel, control, value, status) {
-	print("seek " + PioneerDDJSX2.getJogWheelDelta(value));
+	console.info("seek " + PioneerDDJSX2.getJogWheelDelta(value));
 	engine.setValue("[Channel" + (channel + 1) + "]", "beatjump", PioneerDDJSX2.getJogWheelDelta(value) / 16);
 };
 
@@ -1628,8 +1730,7 @@ PioneerDDJSX2.HotCueLoop = function(performanceChannel, control, value, status) 
 			engine.setValue(group, 'loop_end_position', engine.getValue(group, 'hotcue_' + (1 + (control & 0x7)) + '_position') + engine.getValue(group, 'track_samplerate') * (120 / engine.getValue(group, 'file_bpm')) * engine.getValue(group, 'beatloop_size'));
 			if (!engine.getValue(group, 'loop_enabled')) {
 				// workaround
-				engine.setValue(group, 'reloop_exit', 1);
-				engine.setValue(group, 'reloop_exit', 0);
+				engine.setValue(group, 'reloop_toggle', 1);
 			}
 			if (PioneerDDJSX2.HCLOn[deck]) {
 				midi.sendShortMsg(0x97 + deck, 0x40 + PioneerDDJSX2.HCLNum[deck], PioneerDDJSX2.settings.cueLoopColors[3]);
@@ -1639,9 +1740,7 @@ PioneerDDJSX2.HotCueLoop = function(performanceChannel, control, value, status) 
 			PioneerDDJSX2.HCLNum[deck] = (control & 0x7);
 		} else {
 			if (engine.getValue(group, 'loop_enabled')) {
-				// workaround
-				engine.setValue(group, 'reloop_exit', 1);
-				engine.setValue(group, 'reloop_exit', 0);
+				engine.setValue(group, 'reloop_toggle', 1);
 			}
 			PioneerDDJSX2.HCLOn[deck] = 0;
 			midi.sendShortMsg(0x97 + deck, 0x40 + PioneerDDJSX2.HCLNum[deck], PioneerDDJSX2.settings.cueLoopColors[3]);
@@ -1666,7 +1765,7 @@ PioneerDDJSX2.SavedLoop = function(performanceChannel, control, value, status) {
 		} else {
 			engine.setValue(group, "loop_start_position", engine.getValue(group, "hotcue_" + ((control - 0x48) * 2) + "_position"));
 			engine.setValue(group, "loop_end_position", engine.getValue(group, "hotcue_" + (((control - 0x48) * 2) + 1) + "_position"));
-			engine.setValue(group, "reloop_exit", 1);
+			engine.setValue(group, "reloop_toggle", 1);
 		}
 	}
 };
