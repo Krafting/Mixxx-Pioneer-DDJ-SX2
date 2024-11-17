@@ -63,13 +63,14 @@ previous track (SHIFT + CUE): when pressed, playback position is set to the begi
 
 SYNC: enables sync lock mode. Mixxx's SYNC button only sets the tempo of a deck to match the other(s), but it does not enable sync lock unless long-pressed.
 
-beat grid operation:
+Beat Grid operation:
+
 - ADJUST: allows you to change the beat grid tempo.
 - SLIDE: allows you to slide the beat grid.
 - SET (SHIFT + ADJUST): sets the beat grid to the playing position. Mixxx does not have the concept of beat markers, but oddly enough it supports variable tempo tracks with no configuration whatsoever...
 - CLEAR (SHIFT + SLIDE): has no effect for now.
 
-PANEL SELECT toggles between sampler, effects and nothing.
+PANEL SELECT toggles between sampler, effects, both and nothing.
 
 # Mixer section
 

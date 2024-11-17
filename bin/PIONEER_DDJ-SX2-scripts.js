@@ -249,7 +249,7 @@ PioneerDDJSX2.init = function(id) {
 		CenterRedLightsBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
 		DoNotTrickController: 0, // Do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
 		SoftStartTime: -1, // Time for the softstart function (when hitting play) (Higher is faster) (disable with -1) (10-15 is a good default)
-		BrakeTime: -1 // Time for the brake function (when hitting pause) (Higher is faster) (disable with -1) (10-15 is a good default)
+		BrakeTime: 20 // Time for the brake function (when hitting pause) (Higher is faster) (disable with -1) (10-15 is a good default)
 	};
 
 	PioneerDDJSX2.enumerations = {
@@ -1318,7 +1318,7 @@ PioneerDDJSX2.SlicerParam1R = function(group, control, value, status) {
 
 PioneerDDJSX2.RepaintSampler = function(group) {
 	var ai;
-	console.info("RepaintSampler " + group);
+	// console.info("RepaintSampler " + group);
 	for (var i = 0; i < 8; i++) {
 		ai = i + PioneerDDJSX2.samplerBank[group] * 8;
 		if (engine.getValue("[Sampler" + (ai + 1) + "]", "track_loaded")) {
@@ -1505,26 +1505,51 @@ PioneerDDJSX2.Play = function (channel, control, value, status, group) {
 
 	// Only call when pressing, not releasing the button
 	if (value == 127) {
-		// We use the isBraking to know if we are currently braking, so allow for fast play/pause
-		// Because when braking, the track is still playing.
-		if (isPlaying && PioneerDDJSX2.isBraking == 0) {
-			PioneerDDJSX2.isBraking = 1
+		// Shift + Play enable braking/softstart
+		if (control == 71) {
+			console.info(isPlaying)
+			console.info(PioneerDDJSX2.isBraking)
+			// We use the isBraking to know if we are currently braking, so allow for fast play/pause
+			// Because when braking, the track is still playing.
+			if (isPlaying && PioneerDDJSX2.isBraking == 0) {
+				PioneerDDJSX2.isBraking = 1
 
-			if (PioneerDDJSX2.settings.BrakeTime >= 0) {
-				engine.brake(deck, true, PioneerDDJSX2.settings.BrakeTime); // Enable brake effect
+				if (PioneerDDJSX2.settings.BrakeTime >= 0) {
+					engine.brake(deck, true, PioneerDDJSX2.settings.BrakeTime); // Enable brake effect
+				} else {
+					engine.setValue(group, 'play', 0);
+				}
+
+			// This is when we press play again but braking has not finished yet, we disable the effect, but it keeps playing
+			} else if (isPlaying && PioneerDDJSX2.isBraking == 1) {
+				PioneerDDJSX2.isBraking = 0
+				if (PioneerDDJSX2.settings.SoftStartTime >= 0) {
+					engine.softStart(deck, true, PioneerDDJSX2.settings.SoftStartTime); // Enable soft start effect
+				} else {
+					engine.brake(deck, false);
+					engine.softStart(deck, false);
+				}
 			} else {
-				engine.setValue(group, 'play', 0);
+				PioneerDDJSX2.isBraking = 0
+
+				if (PioneerDDJSX2.settings.SoftStartTime >= 0) {
+					engine.softStart(deck, true, PioneerDDJSX2.settings.SoftStartTime); // Enable soft start effect
+				} else {
+					engine.setValue(group, 'play', 1);
+				}
 			}
-		} else {
-			PioneerDDJSX2.isBraking = 0
-
-			if (PioneerDDJSX2.settings.SoftStartTime >= 0) {
-				engine.softStart(deck, true, PioneerDDJSX2.settings.BrakeTime); // Enable soft start effect
+		
+		// Otherwise Play is used normally
+		} else {			
+			if (isPlaying) {
+				PioneerDDJSX2.isBraking = 1
+				engine.setValue(group, 'play', 0);
 			} else {
+				PioneerDDJSX2.isBraking = 0
 				engine.setValue(group, 'play', 1);
 			}
 		}
-		
+
 	}
 }
 
