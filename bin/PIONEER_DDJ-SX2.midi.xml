@@ -1,10 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
-<MixxxControllerPreset schemaVersion="1" mixxxVersion="2.3.0+">
+<MixxxControllerPreset schemaVersion="1" mixxxVersion="2.4.0+">
     <info>
         <name>Pioneer DDJ-SX2</name>
-        <author>hrudham, tildearrow</author>
+        <author>hrudham, tildearrow, Krafting</author>
         <description>Pioneer DDJ-SX2 mapping for Mixxx</description>
     </info>
+    <settings>
+        <group label="Scratch Settings">
+            <option variable="safeScratchTimeout" default="20" min="20" max="1000" step="10" type="integer" label="Safe Scratch Timeout (ms) (20ms is the minimum allowed)"></option>
+        </group>
+        <group label="Brake and Soft Start">
+            <option variable="UseShiftToBreak" type="boolean" default="0" label="Use :hwbtn:`Play` instead of :hwbtn:`Shift` + :hwbtn:`Play` to brake/soft start."></option>
+            <option variable="SoftStartTime" min="-1" default="15" max="10000" step="10" type="integer" label="Soft Start Time (Higher is faster) (disable with -1)"></option>
+            <option variable="BrakeTime" min="-1" default="15" max="10000" step="10" type="integer" label="Brake Time (Higher is faster) (disable with -1)"></option>
+        </group>
+        <group label="Lights Settings">
+            <option variable="CenterRedLightsBehavior" type="boolean" default="1" label="Show beats instead of rotation in the center red lights."></option>
+            <option variable="DoNotTrickController" type="boolean" default="0" label="Do not send Serato mode keep-alive when enabled. Note that center lights, spin alignment and slip flash will not be available."></option>
+        </group>
+    </settings>
     <controller id="PIONEER">
         <scriptfiles>
             <file functionprefix="PioneerDDJSX2" filename="PIONEER_DDJ-SX2-scripts.js"/>

@@ -131,6 +131,7 @@ PioneerDDJSX2.isBraking = 0;
 PioneerDDJSX2.reverse = [0, 0, 0, 0];
 PioneerDDJSX2.vinylOn = [1, 1, 1, 1];
 PioneerDDJSX2.padMode = [0, 0, 0, 0];
+
 // 0: 8% of max,1: 16% of max,2: 50% of max 3: 90% of max
 PioneerDDJSX2.tempoRange = [0, 0, 0, 0];
 PioneerDDJSX2.closestBeatToLoopIn = [0, 0, 0, 0];
@@ -245,11 +246,12 @@ PioneerDDJSX2.init = function(id) {
 		rollColors: [0x1d, 0x16, 0x13, 0x0d, 0x05],
 		beatjumpColors: [0x3c, 0x3a, 0x38, 0x36, 0x34, 0x32, 0x30, 0x2e, 0x2c, 0x2a, 0x28],
 		cueLoopColors: [0x30, 0x35, 0x3a, 0x01, 0x05, 0x0a, 0x10, 0x15, 0x1a, 0x24, 0x27, 0x2a],
-		safeScratchTimeout: 20, // 20ms is the minimum allowed here.
-		CenterRedLightsBehavior: 1, // 0 for rotations, 1 for beats, -1 to disable
-		DoNotTrickController: 0, // Do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
-		SoftStartTime: -1, // Time for the softstart function (when hitting play) (Higher is faster) (disable with -1) (10-15 is a good default)
-		BrakeTime: 20 // Time for the brake function (when hitting pause) (Higher is faster) (disable with -1) (10-15 is a good default)
+		safeScratchTimeout: engine.getSetting('safeScratchTimeout'), // 20ms is the minimum allowed here.
+		CenterRedLightsBehavior: engine.getSetting('CenterRedLightsBehavior'), // 0 for rotations, 1 for beats, -1 to disable
+		DoNotTrickController: engine.getSetting('DoNotTrickController'), // Do not send Serato mode keep-alive when enabled. note that center light, spin alignment and slip flash will not be available.
+		SoftStartTime: engine.getSetting('SoftStartTime'), // Time for the softstart function (when hitting play) (Higher is faster) (disable with -1) (10-15 is a good default)
+		BrakeTime: engine.getSetting('BrakeTime'), // Time for the brake function (when hitting pause) (Higher is faster) (disable with -1) (10-15 is a good default)
+		UseShiftToBreak: engine.getSetting('UseShiftToBreak') // Time for the brake function (when hitting pause) (Higher is faster) (disable with -1) (10-15 is a good default)
 	};
 
 	PioneerDDJSX2.enums = {
@@ -1404,7 +1406,8 @@ PioneerDDJSX2.Play = function (channel, control, value, status, group) {
 	// Only call when pressing, not releasing the button
 	if (value == 127) {
 		// Shift + Play enable braking/softstart
-		if (control == 71) {
+		console.info(PioneerDDJSX2.settings.UseShiftToBreak);
+		if ((control == 71 && PioneerDDJSX2.settings.UseShiftToBreak == false) || (control != 71 && PioneerDDJSX2.settings.UseShiftToBreak == true)) {
 			// We use the isBraking to know if we are currently braking, so allow for fast play/pause
 			// Because when braking, the track is still playing.
 			if (isPlaying && PioneerDDJSX2.isBraking == 0) {
@@ -1520,6 +1523,8 @@ PioneerDDJSX2.jogScratchTouch = function(channel, control, value, status) {
 	}
 };
 
+
+// To document
 PioneerDDJSX2.jogSeek = function(channel, control, value, status) {
 	console.info("seek " + PioneerDDJSX2.getJogWheelDelta(value));
 	engine.setValue("[Channel" + (channel + 1) + "]", "beatjump", PioneerDDJSX2.getJogWheelDelta(value) / 16);
@@ -1597,6 +1602,12 @@ PioneerDDJSX2.jogSeekTurn = function(channel, control, value, status) {
 };
 
 
+///////////////////////////////////////////////////////////////
+//              PERFORMANCE PADS  : SET MODE                 //
+///////////////////////////////////////////////////////////////
+
+
+
 PioneerDDJSX2.SetHotCueMode = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.padMode[group] = 0;
@@ -1612,6 +1623,7 @@ PioneerDDJSX2.SetRollMode = function(group, control, value, status) {
 };
 
 // Slicer Mode
+// Needs to be redone at some point...
 PioneerDDJSX2.SetSlicerMode = function(group, control, value, status) {
     if (value == 127) {
         PioneerDDJSX2.padMode[group] = 2;
@@ -1639,10 +1651,6 @@ PioneerDDJSX2.SetSlicerMode = function(group, control, value, status) {
     }
 };
 
-///////////////////////////////////////////////////////////////
-//              PERFORMANCE PADS  : SET MODE                 //
-///////////////////////////////////////////////////////////////
-
 PioneerDDJSX2.SetSamplerMode = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.padMode[group] = 3;
@@ -1666,6 +1674,8 @@ PioneerDDJSX2.SetSavedLoopMode = function(group, control, value, status) {
 	}
 };
 
+// Slicer Loop Mode
+// Needs to be redone at some point...
 PioneerDDJSX2.SetSlicerLoopMode = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.padMode[group] = 6;
