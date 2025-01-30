@@ -554,7 +554,6 @@ PioneerDDJSX2.HeadphoneCueLed = function(value, group, control) {
 PioneerDDJSX2.SyncEnable = function(value, group, control) {
 	var channel = PioneerDDJSX2.enums.channelGroups[group];
 	if (control == 127) {
-		print("do");
 		if (value == 0 || value == 2) {
 			engine.setValue("[Channel" + (value + 1) + "]", "sync_enabled", 1);
 			engine.setValue("[Channel" + (value + 2) + "]", "sync_enabled", 1);
@@ -1719,7 +1718,6 @@ PioneerDDJSX2.SetSlicerLoopMode = function(group, control, value, status) {
 		midi.sendShortMsg(0x90 + group, 0x6d, 0x7f);
 		// update slicer loop lights
 		PioneerDDJSX2.beat[group] = Math.round(engine.getValue("[Channel" + (group + 1) + "]", "beat_next") / engine.getValue("[Channel" + (group + 1) + "]", "track_samplerate") * (engine.getValue("[Channel" + (group + 1) + "]", "file_bpm") / 120.0)) - 1;
-		print("beat " + engine.getValue("[Channel" + (group + 1) + "]", "beat_closest"));
 		midi.sendShortMsg(0x97 + group, 0x60, ((Math.floor(PioneerDDJSX2.beat[group] % 8)) == 0) ? 0x28 : 0x01);
 		midi.sendShortMsg(0x97 + group, 0x61, ((Math.floor(PioneerDDJSX2.beat[group] % 8)) == 1) ? 0x28 : 0x01);
 		midi.sendShortMsg(0x97 + group, 0x62, ((Math.floor(PioneerDDJSX2.beat[group] % 8)) == 2) ? 0x28 : 0x01);
