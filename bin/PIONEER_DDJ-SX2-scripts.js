@@ -1120,7 +1120,6 @@ PioneerDDJSX2.SamplerStop = function(group, control, value, status) {
 
 		// Set a timer after which the sample is ejected
 		PioneerDDJSX2.EjectSampleTimer = engine.beginTimer(1000, function(){
-			console.info("Eject")
 			engine.setParameter(sampler, "eject", 1);
 			PioneerDDJSX2.EjectSampleTimer = null;
 		}, 1);
@@ -1185,7 +1184,6 @@ PioneerDDJSX2.SetSamplerVol = function(value, group, control) {
 
 PioneerDDJSX2.RepaintSampler = function(group) {
 	var ai;
-	// console.info("RepaintSampler " + group);
 	for (var i = 0; i < 8; i++) {
 		ai = i + PioneerDDJSX2.samplerBank[group] * 8;
 		if (engine.getValue("[Sampler" + (ai + 1) + "]", "track_loaded")) {
@@ -1343,7 +1341,6 @@ PioneerDDJSX2.HotCuePerformancePadLed = function(value, group, control) {
 
 	if (value === 1) { // on
 		const padColor = PioneerDDJSX2.padColors.getValueForNearestColor(engine.getValue(group, 'hotcue_' + (i + 1) + '_color'));
-		console.info(padColor);
 
 		var hotCueColor = padColor
 		var hotCueLoopColor = (padColor + 8)  % 50
@@ -1437,13 +1434,14 @@ PioneerDDJSX2.Play = function (channel, control, value, status, group) {
 	var deck = script.deckFromGroup(group); // work out which deck we are using
 	var isPlaying = engine.getValue(group, 'play')
 
+	// Check the status of the last HotCue
+	// This is to determines whether or not the hot cue is currently previewing
+	// If yes, we use play normally and don't invoke the Brakeing/Soft-start
 	var lastHotcue = engine.getValue(group, 'hotcue_focus');
 	var isLastHotcuePlaying = 0;
 	if (lastHotcue != -1) {
 		// 0 = unset ; 1 = set ; 2 = playing
 		isLastHotcuePlaying = engine.getValue(group, 'hotcue_' + lastHotcue + '_status');
-		console.info(lastHotcue)
-		console.info(isLastHotcuePlaying)
 	}
 	// Only call when pressing, not releasing the button
 	if (value == 127) {
@@ -1761,8 +1759,6 @@ PioneerDDJSX2.BeatJump = function(performanceChannel, control, value, status) {
 	var group = '[Channel' + (deck + 1) + ']';
 	const which = (control & 3) + PioneerDDJSX2.beatjumpPrec[deck];
 	var padNumber = control - 31
-
-	// console.info(padNumber)
 
 	if (value == 0x7F) {
 		var interval = PioneerDDJSX2.settings.loopIntervals[which];
