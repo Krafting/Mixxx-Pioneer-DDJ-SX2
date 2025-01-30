@@ -68,7 +68,7 @@ Beat Grid operation:
 - ADJUST: allows you to change the beat grid tempo.
 - SLIDE: allows you to slide the beat grid.
 - SET (SHIFT + ADJUST): sets the beat grid to the playing position. Mixxx does not have the concept of beat markers, but oddly enough it supports variable tempo tracks with no configuration whatsoever...
-- CLEAR (SHIFT + SLIDE): has no effect for now.
+- CLEAR (SHIFT + SLIDE): Reset the grid to previous position.
 
 PANEL SELECT toggles between sampler, effects, both and nothing.
 
@@ -76,7 +76,7 @@ PANEL SELECT toggles between sampler, effects, both and nothing.
 
 When this mapping is loaded, the filter resonance is increased to sound better.
 
-Crossfader start is not implemented (?).
+Crossfader start is not implemented (?). (-kraft: No Idea what this means)
 
 Sampler volume sets pre-gain on all sampler slots since there's no global sampler volume control in Mixxx.
 
@@ -86,7 +86,7 @@ Mixxx's effect framework now has a "collapsed" mode which maps much better to th
 
 However, Mixxx still has an "advanced" ("expanded") mode in where every effect parameter is exposed.
 
-This mapping only supports the collapsed mode, but I may revive the code for handling the advanced mode at some point.
+This mapping **only** supports the collapsed mode, but I may revive the code for handling the advanced mode at some point.
 
 The three effect knobs set the dry/wet level.
 
@@ -148,8 +148,8 @@ These allow you to trigger:
   - Using hotcues number 8-16
 
 - Saved Loop: this allows you to store loops for later usage.
-  - Mixxx does not have loop slots.
-  - therefore this feature is implemented using hot cues as loop markers.
+  - Mixxx does not have loop slots. (Not that I'm aware of)
+  - This is a secondary bank for Cue Loop, with the same functionnality
   - Using hotcues number 17-24
 
 - Slicer Loop: nothing to see here yet.

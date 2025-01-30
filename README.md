@@ -47,15 +47,16 @@ It's very likely that it won't work. newer controllers are totally different.
 - [x] Hot Cues
 - [x] Hot Cues Loop (Using Mixxx 2.4.0 features)
 - [x] Roll Mode
-- [ ] Saved Loop
+- [x] Saved Loop
 - [ ] Slicer
 - [ ] Slicer Loop
 - [x] Sampler (+ Ejecting Samples)
 - [x] Velocity Sampler
 - [x] Play Button Brake/Soft-start
 - [x] Fix play button with HotCues (It was braking and softstarting when hotcueing)
-- [ ] Different color in Hotcue Loops
+- [x] Different color in Hotcue Loops
 - [x] Eject Sampler with long press 
+- [x] Clear Grid is now available in Mixxx 2.5.0
 
 # Are you going to upstream this?
 
@@ -70,7 +71,6 @@ Not yet - it still needs some work before that can happen:
   - Clear Grid (Shift + Slide)
 - Needs work with Mixxx new effect framework
 - Some lights turn off when pressing Shift.
-- There may be some other things I probably missed.
 
 # I found a bug.
 
