@@ -127,6 +127,8 @@ PioneerDDJSX2.curPanel = 0;
 PioneerDDJSX2.curView = 0;
 // Variable to know if the track is currently braking or not
 PioneerDDJSX2.isBraking = 0;
+// When Ejecting Samples in the Sampler
+PioneerDDJSX2.EjectSampleTimer = null;
 
 // Deck variables
 PioneerDDJSX2.reverse = [0, 0, 0, 0];
@@ -153,14 +155,14 @@ PioneerDDJSX2.beatjumpPrec = [2, 2, 2, 2];
 // Sampler variables
 PioneerDDJSX2.samplerVolume = 1.0;
 PioneerDDJSX2.sampleVolume = [
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9,
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9,
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9,
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9,
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9,
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9,
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9,
+	0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9
 ];
 PioneerDDJSX2.samplerBank = [0, 0, 0, 0];
 
@@ -458,8 +460,7 @@ PioneerDDJSX2.BindControlConnections = function() {
 		// Hook up the hot cue/saved loop performance pads
 		for (var i = 0; i < 16; i++) {
 			PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'hotcue_' + (i + 1) + '_status', PioneerDDJSX2.HotCuePerformancePadLed));
-			// PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'hotcue_' + (i + 1) + '_color', PioneerDDJSX2.HotCuePerformancePadLedColor));
-			// PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'hotcue_' + (16 + (i * 2)) + '_status', PioneerDDJSX2.SavedLoopLights));
+			PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'hotcue_' + (i + 1) + '_color', PioneerDDJSX2.HotCuePerformancePadLed));
 		}
 	}
 	// Effect Bank Selector Lights (1 or 2)
@@ -1070,6 +1071,11 @@ PioneerDDJSX2.EffectTap = function(value, group, control) {
 	}
 };
 
+
+///////////////////////////////////////////////////////////////
+//                     GRID SETTINGS                     	 //
+///////////////////////////////////////////////////////////////
+
 // Set the grid slide mode if we press the Slide button
 PioneerDDJSX2.SetGridSlide = function(value, group, control) {
 	PioneerDDJSX2.gridSlide[value] = control ? 1 : 0;
@@ -1089,6 +1095,10 @@ PioneerDDJSX2.ClearGrid = function(value, group, control) {
 };
 
 
+///////////////////////////////////////////////////////////////
+//                    		SAMPLERS                     	 //
+///////////////////////////////////////////////////////////////
+
 PioneerDDJSX2.SamplerPlay = function(group, control, value, status) {
 	var sampler = "[Sampler" + (1 + (control & 7) + (PioneerDDJSX2.samplerBank[group - 7] * 8)) + "]";
 	if (engine.getValue(sampler, "track_loaded")) { // play
@@ -1099,7 +1109,24 @@ PioneerDDJSX2.SamplerPlay = function(group, control, value, status) {
 };
 
 PioneerDDJSX2.SamplerStop = function(group, control, value, status) {
-	engine.setParameter("[Sampler" + (1 + (control & 7) + (PioneerDDJSX2.samplerBank[group - 7] * 8)) + "]", "start_stop", value & 1);
+	var sampler = "[Sampler" + (1 + (control & 7) + (PioneerDDJSX2.samplerBank[group - 7] * 8)) + "]";
+
+	if (value == 127) {
+		// Stop the Sample
+		engine.setParameter(sampler, "start_stop", value & 1);
+
+		// Set a timer after which the sample is ejected
+		PioneerDDJSX2.EjectSampleTimer = engine.beginTimer(1000, function(){
+			console.info("Eject")
+			engine.setParameter(sampler, "eject", 1);
+			PioneerDDJSX2.EjectSampleTimer = null;
+		}, 1);
+	} else {
+		// Stop timer if we release the button before the end of the timer (So we don't eject the sample)
+		if (PioneerDDJSX2.EjectSampleTimer != null) {
+			engine.stopTimer(PioneerDDJSX2.EjectSampleTimer); 
+		}
+	}
 };
 
 // Function that handle the Sampler lights.

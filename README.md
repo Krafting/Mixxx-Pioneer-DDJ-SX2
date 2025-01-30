@@ -50,11 +50,12 @@ It's very likely that it won't work. newer controllers are totally different.
 - [ ] Saved Loop
 - [ ] Slicer
 - [ ] Slicer Loop
-- [ ] Sampler
-- [ ] Velocity Sampler
+- [x] Sampler (+ Ejecting Samples)
+- [x] Velocity Sampler
 - [x] Play Button Brake/Soft-start
 - [x] Fix play button with HotCues (It was braking and softstarting when hotcueing)
 - [ ] Different color in Hotcue Loops
+- [x] Eject Sampler with long press 
 
 # Are you going to upstream this?
 
@@ -69,7 +70,6 @@ Not yet - it still needs some work before that can happen:
   - Clear Grid (Shift + Slide)
 - Needs work with Mixxx new effect framework
 - Some lights turn off when pressing Shift.
-- Sampler pads missing the ability to load in new samples.
 - There may be some other things I probably missed.
 
 # I found a bug.

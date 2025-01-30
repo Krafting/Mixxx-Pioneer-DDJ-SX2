@@ -102,13 +102,15 @@ FX MODE (SHIFT + TAP) allows you to expand or collapse the effect panel.
 
 # Jog Dial display section
 
-The four red lights display the current beat or number of rotations (you can set this up by modifying the script).
+The four red lights display the current beat or number of rotations (You can set this up in the mapping settings).
 
 # Performance pads
 
 These allow you to trigger:
 
 - Hot Cue mode: set, seek to and clear hot cues. behavior is identical.
+  - Using hotcues number 1-8
+
 - Roll Mode: trigger beat loops. the first pad triggers the shortest loop and the last one triggers the longest.
   - parameter 1 allows you to select the duration of these (in beats). the available durations are:
     - 1/32 shortest; 4 longest
@@ -116,7 +118,8 @@ These allow you to trigger:
     - 1/8 shortest; 16 longest (default)
     - 1/4 shortest; 32 longest
     - 1/2 shortest; 64 longest
-  - the pads' color will change to reflect the selected durations.
+  - The pads color will change to reflect the selected durations.
+
 - Slicer Mode: actually beat jump mode when using this mapping.
   - the upper buttons trigger forward beat jumps.
   - the lower buttons trigger backward beat jumps.
@@ -133,15 +136,22 @@ These allow you to trigger:
     -    4,    8,  16,  32
     -    8,   16,  32,  64
   - the color of the mode indicator will change to reflect the selected lengths.
+
 - Sampler Mode: trigger samples.
-  - parameter 1 allows you to choose between pages.
-  - each page has 8 samples.
-  - you can select one of 8 pages.
-  - the Deere (64 Samplers) or Tango (64 Samplers) skin is necessary to view all 64 samples.
-- Cue Loop: same function as hot cue, but starts a loop.
+  - `Parameter 1` allows you to choose between pages.
+  - Each page has 8 samples.
+  - You can select one of 8 pages.
+  - The Deere (64 Samplers) or Tango (64 Samplers) skin is necessary to view all 64 samples.
+  - Long press on `Shift` + `Sampler Pad` will eject the sampler allowing you to use another one. (1s delay)
+
+- Cue Loop: Same function as hot cue, but starts a loop.
+  - Using hotcues number 8-16
+
 - Saved Loop: this allows you to store loops for later usage.
   - Mixxx does not have loop slots.
   - therefore this feature is implemented using hot cues as loop markers.
-  - the parameter 1 button has no effect.
+  - Using hotcues number 17-24
+
 - Slicer Loop: nothing to see here yet.
+
 - Velocity Sampler: same thing as sampler, except that the pads become pressure-sensitive and set volume when pressed.
