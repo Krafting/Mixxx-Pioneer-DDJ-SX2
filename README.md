@@ -42,6 +42,20 @@ It *might* work but many features will be missing.
 
 It's very likely that it won't work. newer controllers are totally different.
 
+# Things done and Todos
+
+- [x] Hot Cues
+- [x] Hot Cues Loop (Using Mixxx 2.4.0 features)
+- [x] Roll Mode
+- [ ] Saved Loop
+- [ ] Slicer
+- [ ] Slicer Loop
+- [ ] Sampler
+- [ ] Velocity Sampler
+- [x] Play Button Brake/Soft-start
+- [x] Fix play button with HotCues (It was braking and softstarting when hotcueing)
+- [ ] Different color in Hotcue Loops
+
 # Are you going to upstream this?
 
 Not yet - it still needs some work before that can happen:

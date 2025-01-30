@@ -26,7 +26,7 @@
         <controls>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_1_activate</key>
+                <key>hotcue_1_activatecue</key>
                 <status>0x97</status>
                 <midino>0x00</midino>
                 <options>
@@ -35,7 +35,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_1_activate</key>
+                <key>hotcue_1_activatecue</key>
                 <status>0x98</status>
                 <midino>0x00</midino>
                 <options>
@@ -44,7 +44,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_1_activate</key>
+                <key>hotcue_1_activatecue</key>
                 <status>0x99</status>
                 <midino>0x00</midino>
                 <options>
@@ -53,7 +53,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_1_activate</key>
+                <key>hotcue_1_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x00</midino>
                 <options>
@@ -116,7 +116,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_2_activate</key>
+                <key>hotcue_2_activatecue</key>
                 <status>0x97</status>
                 <midino>0x01</midino>
                 <options>
@@ -125,7 +125,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_2_activate</key>
+                <key>hotcue_2_activatecue</key>
                 <status>0x98</status>
                 <midino>0x01</midino>
                 <options>
@@ -134,7 +134,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_2_activate</key>
+                <key>hotcue_2_activatecue</key>
                 <status>0x99</status>
                 <midino>0x01</midino>
                 <options>
@@ -143,7 +143,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_2_activate</key>
+                <key>hotcue_2_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x01</midino>
                 <options>
@@ -161,7 +161,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_3_activate</key>
+                <key>hotcue_3_activatecue</key>
                 <status>0x97</status>
                 <midino>0x02</midino>
                 <options>
@@ -170,7 +170,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_3_activate</key>
+                <key>hotcue_3_activatecue</key>
                 <status>0x98</status>
                 <midino>0x02</midino>
                 <options>
@@ -179,7 +179,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_3_activate</key>
+                <key>hotcue_3_activatecue</key>
                 <status>0x99</status>
                 <midino>0x02</midino>
                 <options>
@@ -188,7 +188,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_3_activate</key>
+                <key>hotcue_3_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x02</midino>
                 <options>
@@ -251,7 +251,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_4_activate</key>
+                <key>hotcue_4_activatecue</key>
                 <status>0x97</status>
                 <midino>0x03</midino>
                 <options>
@@ -260,7 +260,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_4_activate</key>
+                <key>hotcue_4_activatecue</key>
                 <status>0x98</status>
                 <midino>0x03</midino>
                 <options>
@@ -269,7 +269,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_4_activate</key>
+                <key>hotcue_4_activatecue</key>
                 <status>0x99</status>
                 <midino>0x03</midino>
                 <options>
@@ -278,7 +278,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_4_activate</key>
+                <key>hotcue_4_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x03</midino>
                 <options>
@@ -332,7 +332,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_5_activate</key>
+                <key>hotcue_5_activatecue</key>
                 <status>0x97</status>
                 <midino>0x04</midino>
                 <options>
@@ -341,7 +341,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_5_activate</key>
+                <key>hotcue_5_activatecue</key>
                 <status>0x98</status>
                 <midino>0x04</midino>
                 <options>
@@ -350,7 +350,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_5_activate</key>
+                <key>hotcue_5_activatecue</key>
                 <status>0x99</status>
                 <midino>0x04</midino>
                 <options>
@@ -359,7 +359,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_5_activate</key>
+                <key>hotcue_5_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x04</midino>
                 <options>
@@ -422,7 +422,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_6_activate</key>
+                <key>hotcue_6_activatecue</key>
                 <status>0x97</status>
                 <midino>0x05</midino>
                 <options>
@@ -431,7 +431,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_6_activate</key>
+                <key>hotcue_6_activatecue</key>
                 <status>0x98</status>
                 <midino>0x05</midino>
                 <options>
@@ -440,7 +440,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_6_activate</key>
+                <key>hotcue_6_activatecue</key>
                 <status>0x99</status>
                 <midino>0x05</midino>
                 <options>
@@ -449,7 +449,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_6_activate</key>
+                <key>hotcue_6_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x05</midino>
                 <options>
@@ -458,7 +458,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_7_activate</key>
+                <key>hotcue_7_activatecue</key>
                 <status>0x97</status>
                 <midino>0x06</midino>
                 <options>
@@ -467,7 +467,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_7_activate</key>
+                <key>hotcue_7_activatecue</key>
                 <status>0x98</status>
                 <midino>0x06</midino>
                 <options>
@@ -476,7 +476,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_7_activate</key>
+                <key>hotcue_7_activatecue</key>
                 <status>0x99</status>
                 <midino>0x06</midino>
                 <options>
@@ -485,7 +485,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_7_activate</key>
+                <key>hotcue_7_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x06</midino>
                 <options>
@@ -512,7 +512,7 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>hotcue_8_activate</key>
+                <key>hotcue_8_activatecue</key>
                 <status>0x97</status>
                 <midino>0x07</midino>
                 <options>
@@ -521,7 +521,7 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>hotcue_8_activate</key>
+                <key>hotcue_8_activatecue</key>
                 <status>0x98</status>
                 <midino>0x07</midino>
                 <options>
@@ -530,7 +530,7 @@
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>hotcue_8_activate</key>
+                <key>hotcue_8_activatecue</key>
                 <status>0x99</status>
                 <midino>0x07</midino>
                 <options>
@@ -539,7 +539,7 @@
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>hotcue_8_activate</key>
+                <key>hotcue_8_activatecue</key>
                 <status>0x9A</status>
                 <midino>0x07</midino>
                 <options>
@@ -3675,38 +3675,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_activateloop</key>
                 <status>0x97</status>
                 <midino>0x40</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_activateloop</key>
                 <status>0x98</status>
                 <midino>0x40</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_activateloop</key>
                 <status>0x99</status>
                 <midino>0x40</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x40</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -3739,74 +3739,74 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_activateloop</key>
                 <status>0x97</status>
                 <midino>0x41</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_activateloop</key>
                 <status>0x98</status>
                 <midino>0x41</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_activateloop</key>
                 <status>0x99</status>
                 <midino>0x41</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x41</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_activateloop</key>
                 <status>0x97</status>
                 <midino>0x42</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_activateloop</key>
                 <status>0x98</status>
                 <midino>0x42</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_activateloop</key>
                 <status>0x99</status>
                 <midino>0x42</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x42</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -3830,74 +3830,74 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_activateloop</key>
                 <status>0x97</status>
                 <midino>0x43</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_activateloop</key>
                 <status>0x98</status>
                 <midino>0x43</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_activateloop</key>
                 <status>0x99</status>
                 <midino>0x43</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x43</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_activateloop</key>
                 <status>0x97</status>
                 <midino>0x44</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_activateloop</key>
                 <status>0x98</status>
                 <midino>0x44</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_activateloop</key>
                 <status>0x99</status>
                 <midino>0x44</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x44</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -3938,38 +3938,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_activateloop</key>
                 <status>0x97</status>
                 <midino>0x45</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_activateloop</key>
                 <status>0x98</status>
                 <midino>0x45</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_activateloop</key>
                 <status>0x99</status>
                 <midino>0x45</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x45</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4019,38 +4019,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_activateloop</key>
                 <status>0x97</status>
                 <midino>0x46</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_activateloop</key>
                 <status>0x98</status>
                 <midino>0x46</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_activateloop</key>
                 <status>0x99</status>
                 <midino>0x46</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x46</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4158,38 +4158,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_activateloop</key>
                 <status>0x97</status>
                 <midino>0x47</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_activateloop</key>
                 <status>0x98</status>
                 <midino>0x47</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_activateloop</key>
                 <status>0x99</status>
                 <midino>0x47</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_activateloop</key>
                 <status>0x9A</status>
                 <midino>0x47</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4257,38 +4257,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_clear</key>
                 <status>0x97</status>
                 <midino>0x48</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_clear</key>
                 <status>0x98</status>
                 <midino>0x48</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_clear</key>
                 <status>0x99</status>
                 <midino>0x48</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_9_clear</key>
                 <status>0x9A</status>
                 <midino>0x48</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4356,38 +4356,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_clear</key>
                 <status>0x97</status>
                 <midino>0x49</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_clear</key>
                 <status>0x98</status>
                 <midino>0x49</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_clear</key>
                 <status>0x99</status>
                 <midino>0x49</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_10_clear</key>
                 <status>0x9A</status>
                 <midino>0x49</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4446,38 +4446,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_clear</key>
                 <status>0x97</status>
                 <midino>0x4A</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_clear</key>
                 <status>0x98</status>
                 <midino>0x4A</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_clear</key>
                 <status>0x99</status>
                 <midino>0x4A</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_11_clear</key>
                 <status>0x9A</status>
                 <midino>0x4A</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4518,38 +4518,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_clear</key>
                 <status>0x97</status>
                 <midino>0x4B</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_clear</key>
                 <status>0x98</status>
                 <midino>0x4B</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_clear</key>
                 <status>0x99</status>
                 <midino>0x4B</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_12_clear</key>
                 <status>0x9A</status>
                 <midino>0x4B</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4563,38 +4563,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_clear</key>
                 <status>0x97</status>
                 <midino>0x4C</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_clear</key>
                 <status>0x98</status>
                 <midino>0x4C</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_clear</key>
                 <status>0x99</status>
                 <midino>0x4C</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_13_clear</key>
                 <status>0x9A</status>
                 <midino>0x4C</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4644,38 +4644,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_clear</key>
                 <status>0x97</status>
                 <midino>0x4D</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_clear</key>
                 <status>0x98</status>
                 <midino>0x4D</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_clear</key>
                 <status>0x99</status>
                 <midino>0x4D</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_14_clear</key>
                 <status>0x9A</status>
                 <midino>0x4D</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4689,38 +4689,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_clear</key>
                 <status>0x97</status>
                 <midino>0x4E</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_clear</key>
                 <status>0x98</status>
                 <midino>0x4E</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_clear</key>
                 <status>0x99</status>
                 <midino>0x4E</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_15_clear</key>
                 <status>0x9A</status>
                 <midino>0x4E</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
@@ -4734,38 +4734,38 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_clear</key>
                 <status>0x97</status>
                 <midino>0x4F</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_clear</key>
                 <status>0x98</status>
                 <midino>0x4F</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel3]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_clear</key>
                 <status>0x99</status>
                 <midino>0x4F</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel4]</group>
-                <key>PioneerDDJSX2.HotCueLoop</key>
+                <key>hotcue_16_clear</key>
                 <status>0x9A</status>
                 <midino>0x4F</midino>
                 <options>
-                    <script-binding/>
+                    <normal/>
                 </options>
             </control>
             <control>
