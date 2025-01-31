@@ -48,6 +48,7 @@ It's very likely that it won't work. newer controllers are totally different.
 - [x] Hot Cues Loop (Using Mixxx 2.4.0 features)
 - [x] Roll Mode
 - [x] Saved Loop
+  - [x] Redo Saved Loop using pre-made loops (We don't need two Hot Cue Loops do we ?)
 - [ ] Slicer
 - [ ] Slicer Loop
 - [x] Sampler (+ Ejecting Samples)
@@ -68,9 +69,8 @@ Not yet - it still needs some work before that can happen:
 - The Flip buttons are mapped to key shift, but that's not what they're supposed to do. (What are their equivalent in Mixxx ?)
 - Some buttons don't have mapping, and could be mapped to something:
   - Clicking the BEATS dial (+Shift Click)
-  - Clear Grid (Shift + Slide)
 - Needs work with Mixxx new effect framework
-- Some lights turn off when pressing Shift.
+- Some lights turn off when pressing Shift. (Should we care ? Probably...)
 
 # I found a bug.
 

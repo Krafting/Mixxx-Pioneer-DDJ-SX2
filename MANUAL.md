@@ -149,8 +149,8 @@ These allow you to trigger:
 
 - Saved Loop: this allows you to store loops for later usage.
   - Mixxx does not have loop slots. (Not that I'm aware of)
-  - This is a secondary bank for Cue Loop, with the same functionnality
-  - Using hotcues number 17-24
+  - This is similar to Roll Mode but with Fixed-size loops and loops stay enabled when clicking
+  - parameter1 does nothing
 
 - Slicer Loop: nothing to see here yet.
 

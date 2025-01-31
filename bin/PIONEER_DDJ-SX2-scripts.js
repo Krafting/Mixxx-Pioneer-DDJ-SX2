@@ -470,7 +470,7 @@ PioneerDDJSX2.BindControlConnections = function() {
 		// Pitch
 		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'pitch_adjust', PioneerDDJSX2.PitchAdjust));
 		// Hook up the hot cue/saved loop performance pads
-		for (var i = 0; i < 24; i++) {
+		for (var i = 0; i < 16; i++) {
 			PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'hotcue_' + (i + 1) + '_status', PioneerDDJSX2.HotCuePerformancePadLed));
 			PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'hotcue_' + (i + 1) + '_color', PioneerDDJSX2.HotCuePerformancePadLed));
 		}
@@ -1328,7 +1328,6 @@ PioneerDDJSX2.RollPerformancePadLed = function(value, group, control) {
 //                     HOTCUE SETTINGS                     	 //
 ///////////////////////////////////////////////////////////////
 
-
 PioneerDDJSX2.HotCuePerformancePadLed = function(value, group, control) {
 	var channel = PioneerDDJSX2.enums.channelGroups[group];
 	var i = PioneerDDJSX2.enums.hotcueIndex[control];
@@ -1749,9 +1748,42 @@ PioneerDDJSX2.SetVelocitySamplerMode = function(group, control, value, status) {
 //                    PERFORMANCE PADS                       //
 ///////////////////////////////////////////////////////////////
 
+// Saved Loops
+// Same as Roll but with 
+PioneerDDJSX2.SavedLoop = function (performanceChannel, control, value, status) {
+	var deck = performanceChannel - 6;
+	var group = '[Channel' + deck + ']';
+	var interval = PioneerDDJSX2.settings.loopIntervals[control - 0x50 + 4];
+
+	console.info(deck, group, interval, control)
+
+	var isAutoLoopEnabled = engine.getValue(group, 'beatloop_' + interval + '_enabled');
+	console.info(isAutoLoopEnabled)
+
+	// When clicked
+	if (value == 0x7F) {
+		// Reset colors of all other pads
+		for (var i = 0; i < 8; i++) {
+			// set vinyl mode
+			midi.sendShortMsg(0x97 + deck - 1, 80 + i, 0x00);
+		}
+
+		// If Loop is not enabled, we activate the interval loop
+		if (isAutoLoopEnabled != 1) {
+			engine.setValue(group, 'beatloop_' + interval + '_activate', 1);
+	
+			midi.sendShortMsg(0x97 + deck - 1, control, 0x7f);
+		} else {
+			engine.setValue(group, 'beatloop_' + interval + '_toggle', 1);
+			console.info("HEY")
+			midi.sendShortMsg(0x97 + deck - 1, control, 0x00);
+		}
+	}  
+}
+
 // This handles the eight performance pads below the jog-wheels 
 // that deal with beat jump in the Slicer page.
-// yeah. I got rid of the slicer...
+// yeah. I (he) got rid of the slicer...
 PioneerDDJSX2.BeatJump = function(performanceChannel, control, value, status) {
 	var deck = performanceChannel - 7;
 	var group = '[Channel' + (deck + 1) + ']';
