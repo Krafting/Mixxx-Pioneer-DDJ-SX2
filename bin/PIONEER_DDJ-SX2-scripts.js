@@ -237,7 +237,7 @@ PioneerDDJSX2.init = function(id) {
 		vinylSpeed: 33 + 1 / 3,
 		loopIntervals: ['0.03125', '0.0625', '0.125', '0.25', '0.5', '1', '2', '4', '8', '16', '32', '64'],
 		tempoRanges: [0.08, 0.16, 0.5, 0.9],
-		rollColors: [0x1d, 0x16, 0x13, 0x0d, 0x05],
+		rollColors: [0x19, 0x20, 0x13, 0x0e, 0x05],
 		beatjumpColors: [0x3c, 0x3a, 0x38, 0x36, 0x34, 0x32, 0x30, 0x2e, 0x2c, 0x2a, 0x28],
 		cueLoopColors: [0x30, 0x35, 0x3a, 0x01, 0x05, 0x0a, 0x10, 0x15, 0x1a, 0x24, 0x27, 0x2a],
 		safeScratchTimeout: engine.getSetting('safeScratchTimeout'), // 20ms is the minimum allowed here.
@@ -397,12 +397,14 @@ PioneerDDJSX2.init = function(id) {
 	midi.sendShortMsg(0x92, 0x1b, 0x7f);
 	midi.sendShortMsg(0x93, 0x1b, 0x7f);
 	PioneerDDJSX2.BindControlConnections();
+
 	// Increase resonance of filter
 	engine.setValue("[QuickEffectRack1_[Channel1]_Effect1]", "parameter2", 4);
 	engine.setValue("[QuickEffectRack1_[Channel2]_Effect1]", "parameter2", 4);
 	engine.setValue("[QuickEffectRack1_[Channel3]_Effect1]", "parameter2", 4);
 	engine.setValue("[QuickEffectRack1_[Channel4]_Effect1]", "parameter2", 4);
-	// Disable deck lights
+
+	// Disable Deck lights
 	midi.sendShortMsg(0xbb, 0, 0);
 	midi.sendShortMsg(0xbb, 1, 0);
 	midi.sendShortMsg(0xbb, 2, 0);
@@ -422,10 +424,12 @@ PioneerDDJSX2.init = function(id) {
 		PioneerDDJSX2.RepaintSampler(i);
 	}
 
+
 	PioneerDDJSX2.FXLeds();
 
+	// Restore lights for the HotCue
 	for (var i = 1; i <= 4; i++) {
-		for (var j = 1; j <= 24; j++) {
+		for (var j = 1; j <= 16; j++) {
 			PioneerDDJSX2.HotCuePerformancePadLed(engine.getValue("[Channel" + i + "]", "hotcue_" + j + "_status"), "[Channel" + i + "]", "hotcue_" + j + "_status");
 		}
 	}
@@ -1264,6 +1268,7 @@ PioneerDDJSX2.ToggleVinyl = function(group, control, value, status) {
 	}
 };
 
+// Parameter 1 with the Roll Mode (Left)
 PioneerDDJSX2.RollParam1L = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.rollPrec[group]--;
@@ -1274,6 +1279,7 @@ PioneerDDJSX2.RollParam1L = function(group, control, value, status) {
 	}
 };
 
+// Parameter 1 with the Roll Mode (Right)
 PioneerDDJSX2.RollParam1R = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.rollPrec[group]++;
@@ -1284,6 +1290,7 @@ PioneerDDJSX2.RollParam1R = function(group, control, value, status) {
 	}
 };
 
+// Parameter 1 with the Slicer Mode (Left)
 PioneerDDJSX2.SlicerParam1L = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.beatjumpPrec[group]--;
@@ -1294,6 +1301,7 @@ PioneerDDJSX2.SlicerParam1L = function(group, control, value, status) {
 	}
 };
 
+// Parameter 1 with the Slicer Mode (Right)
 PioneerDDJSX2.SlicerParam1R = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.beatjumpPrec[group]++;
@@ -1303,7 +1311,6 @@ PioneerDDJSX2.SlicerParam1R = function(group, control, value, status) {
 		midi.sendShortMsg(0x90 + group, 0x20, PioneerDDJSX2.settings.beatjumpColors[PioneerDDJSX2.beatjumpPrec[group]]);
 	}
 };
-
 
 // Lights up the LEDs for beat-loops.
 PioneerDDJSX2.RollPerformancePadLed = function(value, group, control) {
@@ -1323,10 +1330,10 @@ PioneerDDJSX2.RollPerformancePadLed = function(value, group, control) {
 };
 
 
-
 ///////////////////////////////////////////////////////////////
 //                     HOTCUE SETTINGS                     	 //
 ///////////////////////////////////////////////////////////////
+
 
 PioneerDDJSX2.HotCuePerformancePadLed = function(value, group, control) {
 	var channel = PioneerDDJSX2.enums.channelGroups[group];
@@ -1342,7 +1349,6 @@ PioneerDDJSX2.HotCuePerformancePadLed = function(value, group, control) {
 
 		var hotCueColor = padColor
 		var hotCueLoopColor = (padColor + 8)  % 50
-		var SavedLoopColor = (padColor + 15) % 40
 
 		// If < 8, it means it's the HoteCue (hotcue 1-8), or else it's the HotCueLoop (hotcue 9-16)		
 		if(i < 8) {
@@ -1356,10 +1362,7 @@ PioneerDDJSX2.HotCuePerformancePadLed = function(value, group, control) {
 			// Loop Pad LED with shift key
 			midi.sendShortMsg(0x97 + channel, 0x40 + (i % 8) + 0x08, hotCueLoopColor);
 		} else {
-			// Saved Loop Pad LED without shift key
-			midi.sendShortMsg(0x97 + channel, 0x50 + (i % 8), SavedLoopColor);
-			// Saved Loop Pad LED with shift key
-			midi.sendShortMsg(0x97 + channel, 0x50 + (i % 8) + 0x08, SavedLoopColor);
+			// For later use 
 		}
 	} else {
 		if(i < 8) {
@@ -1373,10 +1376,7 @@ PioneerDDJSX2.HotCuePerformancePadLed = function(value, group, control) {
 			// Loop Pad LED with shift key
 			midi.sendShortMsg(0x97 + channel, 0x40 + (i % 8) + 0x08, 0x00);
 		} else {
-			// Saved Loop Pad LED without shift key
-			midi.sendShortMsg(0x97 + channel, 0x50 + (i % 8), 0x00);
-			// Saved Loop Pad LED with shift key
-			midi.sendShortMsg(0x97 + channel, 0x50 + (i % 8) + 0x08, 0x00);
+			// For later use 
 		}
 	}
 };
@@ -1698,7 +1698,6 @@ PioneerDDJSX2.SetCueLoopMode = function(group, control, value, status) {
 	if (value == 127) {
 		PioneerDDJSX2.padMode[group] = 4;
 		midi.sendShortMsg(0x90 + group, 0x69, PioneerDDJSX2.settings.cueLoopColors[3]);
-		// PioneerDDJSX2.UpdateCueLoopLights(group);
 	}
 };
 
