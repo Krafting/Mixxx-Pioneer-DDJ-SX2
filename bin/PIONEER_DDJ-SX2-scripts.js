@@ -191,7 +191,6 @@ PioneerDDJSX2.conns = [];
 
 // TODO: this is VERY unhealthy. optimize.
 PioneerDDJSX2.doTimer = function() {
-	var ai;
 	if (!PioneerDDJSX2.settings.DoNotTrickController) {
 		midi.sendSysexMsg(PioneerDDJSX2.keepAlive, PioneerDDJSX2.keepAlive.length);
 	}
@@ -236,7 +235,7 @@ PioneerDDJSX2.init = function(id) {
 		jogResolution: 2054, // 2054 for accurate scratches (until we find a more accurate value)
 		vinylSpeed: 33 + 1 / 3,
 		loopIntervals: ['0.03125', '0.0625', '0.125', '0.25', '0.5', '1', '2', '4', '8', '16', '32', '64'],
-		tempoRanges: [0.08, 0.16, 0.5, 0.9],
+		tempoRanges: [0.08, 0.16, 0.32, 0.64],
 		rollColors: [0x19, 0x20, 0x13, 0x0e, 0x05],
 		beatjumpColors: [0x3c, 0x3a, 0x38, 0x36, 0x34, 0x32, 0x30, 0x2e, 0x2c, 0x2a, 0x28],
 		cueLoopColors: [0x30, 0x35, 0x3a, 0x01, 0x05, 0x0a, 0x10, 0x15, 0x1a, 0x24, 0x27, 0x2a],
@@ -464,7 +463,7 @@ PioneerDDJSX2.BindControlConnections = function() {
 		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'keylock', PioneerDDJSX2.KeyLockLeds));
 		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'loop_double', PioneerDDJSX2.LoopDouble));
 		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'loop_halve', PioneerDDJSX2.LoopHalve));
-		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'rate', PioneerDDJSX2.RateThing));
+		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'rate', PioneerDDJSX2.RateLights));
 		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'beat_next', PioneerDDJSX2.BeatActive));
 		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'eject', PioneerDDJSX2.UnloadLights));
 		PioneerDDJSX2.conns.push(engine.makeConnection(channelGroup, 'loop_enabled', PioneerDDJSX2.ReloopExit));
@@ -518,21 +517,6 @@ PioneerDDJSX2.SyncLights = function(value, group, control) {
 	midi.sendShortMsg(0x90 + channel, 0x58, value ? 0x7f : 0x00);
 };
 
-PioneerDDJSX2.RateThing = function(value, group, control) {
-	var channel = PioneerDDJSX2.enums.channelGroups[group];
-	if (engine.getValue(group, 'rate') > 0) {
-		midi.sendShortMsg(0x90 + channel, 0x34, 0x7F); // ok
-		midi.sendShortMsg(0x90 + channel, 0x37, 0x00);
-	} else {
-		if (engine.getValue(group, 'rate') == 0) {
-			midi.sendShortMsg(0x90 + channel, 0x37, 0x00);
-			midi.sendShortMsg(0x90 + channel, 0x34, 0x00);
-		} else {
-			midi.sendShortMsg(0x90 + channel, 0x37, 0x7F);
-			midi.sendShortMsg(0x90 + channel, 0x34, 0x00); 
-		}
-	}
-};
 
 // Unload lights when we eject a track.
 PioneerDDJSX2.UnloadLights = function(value, group, control) {
@@ -845,6 +829,48 @@ PioneerDDJSX2.AutoLoop = function(channel, control, value, status) {
 		} else {
 			engine.setValue("[Channel" + (channel + 1) + "]", "beatloop_activate", 1);
 		}
+	}
+};
+
+///////////////////////////////////////////////////////////////
+//                 RATE / TEMPO SLIDER                     	 //
+///////////////////////////////////////////////////////////////
+
+
+// Handle the rate slider
+PioneerDDJSX2.RateSlider = function(channel, group, control) {
+	var zero = 64; // Value where the 0 is at
+
+	// This is thje middle point, we should set the tempo at 0
+	if (control == zero) {
+		engine.setValue("[Channel" + (channel + 1) + "]", "rate", 0);
+		return
+	}
+
+	var newRate = script.absoluteLin(control,1,-1,0,127)
+	engine.setValue("[Channel" + (channel + 1) + "]", "rate", newRate);
+};
+
+// Set lights for the Tempo slider (rate value)
+PioneerDDJSX2.RateLights = function(value, group, control) {
+	var channel = PioneerDDJSX2.enums.channelGroups[group];
+	
+	// reset ligth at the middle points, this is inverted so middle point is at -0.15625 
+	if (engine.getValue(group, 'rate') == 0) {
+		midi.sendShortMsg(0x90 + channel, 0x37, 0x00);
+		midi.sendShortMsg(0x90 + channel, 0x34, 0x00);
+		return
+	}
+
+	// If > 0 => Turn on top light (minus)
+	if (engine.getValue(group, 'rate') < 0) {
+		midi.sendShortMsg(0x90 + channel, 0x34, 0x7F); 
+		midi.sendShortMsg(0x90 + channel, 0x37, 0x00);
+
+	// else, if < 0 => Turn on bottom light (plus)
+	} else {
+		midi.sendShortMsg(0x90 + channel, 0x37, 0x7F);
+		midi.sendShortMsg(0x90 + channel, 0x34, 0x00); 
 	}
 };
 
